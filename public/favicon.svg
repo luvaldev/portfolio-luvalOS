@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="22 2 156 156">
+  <!-- Isometric Block - Letter L shape -->
+  <g transform="translate(100, 40)">
+    <!-- Top face (bright) -->
+    <polygon points="0,-30 52,-15 52,15 0,30 -52,15 -52,-15" fill="#F9BD2B"/>
+    <!-- Left face (medium) -->
+    <polygon points="-52,-15 -52,15 -52,60 -52,95 0,110 0,65 0,30" fill="#E8601A"/>
+    <!-- Right face (dark) -->
+    <polygon points="52,-15 52,15 52,60 52,95 0,110 0,65 0,30" fill="#DC4228"/>
+    <!-- Inner block - notch for L shape -->
+    <!-- Cut right side for L -->
+    <polygon points="0,30 52,15 52,55 14,67" fill="#C0390F"/>
+    <polygon points="0,30 14,67 0,80 -52,65 -52,95 0,110 52,95 52,55 52,15" fill="none"/>
+    <!-- L notch top -->
+    <polygon points="14,-22 52,-15 52,15 14,7" fill="#F5D060"/>
+    <!-- L cutout left vertical -->
+    <polygon points="-52,-15 14,-22 14,7 -52,15" fill="#F9BD2B" opacity="0.85"/>
+  </g>
+</svg>

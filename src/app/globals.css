@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --color-ph-cream: #E8E5DC;
+  --color-ph-dark: #1D1E20;
+  --color-ph-red: #DC4228;
+  --color-ph-yellow: #F9BD2B;
+  --color-ph-orange: #E8601A;
+  --color-ph-blue: #27A3D6;
+  --color-ph-green: #28c840;
+
+  --animate-aurora-1: aurora-blob-1 20s ease-in-out infinite;
+  --animate-aurora-2: aurora-blob-2 25s ease-in-out infinite;
+  --animate-aurora-3: aurora-blob-3 30s ease-in-out infinite;
+  --animate-twinkle: twinkle-star linear infinite;
+
+  @keyframes aurora-blob-1 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+  @keyframes aurora-blob-2 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(-30px, 50px) scale(1.1); }
+    66% { transform: translate(20px, -20px) scale(0.9); }
+  }
+  @keyframes aurora-blob-3 {
+    0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+    50% { transform: translate(40px, 40px) scale(1.1) rotate(180deg); }
+  }
+  @keyframes twinkle-star {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+}
+
+@layer base {
+  :root {
+    /* Desktop background — warm beige/cream */
+    --color-os-bg: #E8E5DC;
+    /* Top bar and dock — semi-transparent white */
+    --color-os-bar: rgba(235, 233, 224, 0.65);
+    /* Window chrome background */
+    --color-os-window: #ffffff;
+    /* Window titlebar */
+    --color-os-wbar: #f0ede6;
+    /* General content background */
+    --color-bg-primary: #ffffff;
+    /* Text */
+    --color-text-main: #1D1E20;
+    --color-text-muted: rgba(29, 30, 32, 0.55);
+    --color-text-accent: #E8601A;
+    /* Borders */
+    --color-border-subtle: rgba(0, 0, 0, 0.1);
+    --color-border-medium: rgba(0, 0, 0, 0.16);
+    --color-border-focus: rgba(232, 96, 26, 0.5);
+    /* Hover states */
+    --color-hover-bg: rgba(0, 0, 0, 0.05);
+    /* Accent */
+    --color-accent: #E8601A;
+    --color-accent-hover: #c94e10;
+
+    /* Aurora */
+    --color-aurora-1: rgba(232, 96, 26, 0.6);  /* Orange */
+    --color-aurora-2: rgba(249, 189, 43, 0.6); /* Yellow */
+    --color-aurora-3: rgba(39, 163, 214, 0.6); /* Blue */
+
+    --background: var(--color-os-bg);
+    --foreground: var(--color-text-main);
+  }
+
+  .dark {
+    /* Desktop — deep dark blue */
+    --color-os-bg: #0D0F1A;
+    /* Top bar and dock */
+    --color-os-bar: rgba(15, 17, 30, 0.55);
+    /* Window chrome */
+    --color-os-window: #131629;
+    /* Window titlebar */
+    --color-os-wbar: #1a1d33;
+    /* Content bg */
+    --color-bg-primary: #0f1121;
+    /* Text */
+    --color-text-main: #E8E5DC;
+    --color-text-muted: rgba(232, 229, 220, 0.5);
+    --color-text-accent: #F0A060;
+    /* Borders */
+    --color-border-subtle: rgba(255, 255, 255, 0.08);
+    --color-border-medium: rgba(255, 255, 255, 0.14);
+    --color-border-focus: rgba(240, 160, 96, 0.5);
+    /* Hover */
+    --color-hover-bg: rgba(255, 255, 255, 0.07);
+    /* Accent */
+    --color-accent: #F0A060;
+    --color-accent-hover: #f5b880;
+
+    /* Aurora */
+    --color-aurora-1: rgba(240, 160, 96, 0.4);
+    --color-aurora-2: rgba(39, 163, 214, 0.4);
+    --color-aurora-3: rgba(220, 66, 40, 0.4);
+
+    --background: var(--color-os-bg);
+    --foreground: var(--color-text-main);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-medium);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
