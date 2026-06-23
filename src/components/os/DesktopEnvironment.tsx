@@ -1,7 +1,7 @@
 "use client"
 
 import TopBar from "./TopBar"
-import BottomDock from "./SideDock"
+import BottomDock from "./Dock/SideDock"
 import DesktopIcon from "./DesktopIcon"
 import Window from "./Window"
 import AuroraBackground from "./AuroraBackground"
@@ -19,17 +19,18 @@ const LEFT_ICONS = [
 ]
 
 const RIGHT_ICONS = [
-  { id: "about",    title: "about.mdx", y: 0   },
-  { id: "blog",     title: "blog.md",   y: 92  },
-  { id: "store",    title: "store/",    y: 184 },
-  { id: "trash",    title: "Trash",     y: 276 },
+  { id: "about",    title: "about.mdx",   y: 0   },
+  { id: "blog",     title: "blog.md",     y: 92  },
+  { id: "store",    title: "store/",      y: 184 },
+  { id: "trash",    title: "Papelera",    y: 276 },
 ]
 
 export default function DesktopEnvironment() {
-  const { windows, openWindow } = useOSStore()
+  const { windows, openWindow, closeWindow, focusWindow } = useOSStore()
   const [contents, setContents] = useState<Record<string, React.ReactNode>>({})
   const desktopRef = useRef<HTMLDivElement>(null)
 
+  // Load all window content lazily
   useEffect(() => {
     import("./WindowContent").then(mod => {
       setContents({
@@ -38,10 +39,15 @@ export default function DesktopEnvironment() {
         skills:   React.createElement(mod.SkillsContent),
         contact:  React.createElement(mod.ContactContent),
         resume:   React.createElement(mod.ResumeContent),
+        about:    React.createElement(mod.AboutContent),
+        blog:     React.createElement(mod.BlogContent),
+        store:    React.createElement(mod.StoreContent),
+        trash:    React.createElement(mod.TrashContent),
       })
     })
   }, [])
 
+  // Open README on first load
   useEffect(() => {
     if (!contents.readme) return
     const t = setTimeout(() => {
@@ -55,8 +61,51 @@ export default function DesktopEnvironment() {
     return () => clearTimeout(t)
   }, [contents.readme, openWindow])
 
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      // Ignore if typing in an input/textarea
+      const target = e.target as HTMLElement
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return
+
+      // Shift + W → Close focused window
+      if (e.shiftKey && e.key === "W") {
+        e.preventDefault()
+        const state = useOSStore.getState()
+        if (state.focusedWindowId) {
+          closeWindow(state.focusedWindowId)
+        }
+      }
+
+      // Shift + X → Close all windows
+      if (e.shiftKey && e.key === "X") {
+        e.preventDefault()
+        const state = useOSStore.getState()
+        Object.keys(state.windows).forEach(id => state.closeWindow(id))
+      }
+
+      // Shift + Z → Screensaver (placeholder — flash the desktop)
+      if (e.shiftKey && e.key === "Z") {
+        e.preventDefault()
+        const el = document.getElementById("desktop-root")
+        if (el) {
+          el.style.transition = "filter 0.3s"
+          el.style.filter = "brightness(0)"
+          setTimeout(() => {
+            el.style.filter = "brightness(1)"
+            setTimeout(() => { el.style.transition = "" }, 300)
+          }, 800)
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handler)
+    return () => document.removeEventListener("keydown", handler)
+  }, [closeWindow])
+
   return (
     <div
+      id="desktop-root"
       ref={desktopRef}
       className="relative w-full h-full overflow-hidden select-none"
       style={{ background: "var(--color-os-bg)" }}
@@ -65,7 +114,7 @@ export default function DesktopEnvironment() {
 
       <TopBar />
 
-      {/* Left column */}
+      {/* Left column icons */}
       {LEFT_ICONS.map(icon => (
         <DesktopIcon
           key={icon.id}
@@ -78,7 +127,7 @@ export default function DesktopEnvironment() {
         />
       ))}
 
-      {/* Right column */}
+      {/* Right column icons */}
       {RIGHT_ICONS.map(icon => (
         <DesktopIcon
           key={icon.id}
@@ -86,6 +135,7 @@ export default function DesktopEnvironment() {
           title={icon.title}
           right={4}
           y={52 + icon.y}
+          content={contents[icon.id]}
           desktopRef={desktopRef}
         />
       ))}

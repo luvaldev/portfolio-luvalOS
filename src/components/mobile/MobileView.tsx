@@ -8,28 +8,28 @@ const SECTIONS = [
     id: "about",
     icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="1.75"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
     title: "Hola, soy Luval 👋",
-    text: "Full Stack Developer apasionado por crear experiencias digitales memorables. Este portfolio funciona como un OS interactivo — visita la versión escritorio para la experiencia completa.",
+    text: "Enfocado en Redes, Desarrollo de Software & Web. Apasionado por la programación, la infraestructura y la ciberseguridad. Este portfolio funciona como un OS interactivo.",
     color: "#A78BFA",
   },
   {
     id: "projects",
     icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" strokeWidth="1.75"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>,
     title: "Proyectos",
-    text: "12+ proyectos construidos con Next.js, TypeScript, React, Node.js y más. Desde apps web hasta herramientas CLI.",
+    text: "12+ proyectos construidos con Next.js, C++, Python, Flutter y más. Desde simulaciones concurrentes hasta sistemas IoT.",
     color: "#FBBF24",
   },
   {
     id: "skills",
     icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="1.75"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>,
     title: "Skills",
-    text: "React, Next.js, TypeScript, Node.js, PostgreSQL, Docker, Git, Figma y mucho más en mi stack tecnológico.",
+    text: "C++, Python, Java, SQL, Dart, Node.js, Docker, Linux, redes TCP/IP y ciberseguridad.",
     color: "#60A5FA",
   },
   {
     id: "contact",
     icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F87171" strokeWidth="1.75"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
     title: "Contacto",
-    text: "¿Tienes un proyecto en mente? Escríbeme a luval@email.com o encuéntrame en GitHub y LinkedIn.",
+    text: "¿Tienes una consulta o propuesta? Escríbeme a primary@luvaldev.lat o búscame en GitHub y LinkedIn.",
     color: "#F87171",
   },
 ]
@@ -79,7 +79,7 @@ export default function MobileView() {
         </div>
         <h1 className="text-2xl font-black text-[var(--color-text-main)] mb-2">Hola, soy Luval</h1>
         <p className="text-sm text-[var(--color-text-muted)] leading-relaxed max-w-xs mx-auto">
-          Full Stack Developer & UI Engineer. Este portfolio es un OS interactivo — mejor en escritorio.
+          Enfocado en Redes, Desarrollo de Software & Web. Este portfolio es un OS interactivo — mejor en escritorio.
         </p>
         <button
           className="mt-5 px-6 py-2.5 text-sm font-bold text-white rounded-xl shadow-md"

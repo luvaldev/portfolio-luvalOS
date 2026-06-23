@@ -1,8 +1,8 @@
 "use client"
 
-import { motion, useDragControls } from "framer-motion"
+import { motion, useDragControls, AnimatePresence } from "framer-motion"
 import { useOSStore } from "@/store/useOSStore"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
 export default function Window({ id }: { id: string }) {
   const windowData = useOSStore((state) => state.windows[id])
@@ -12,6 +12,27 @@ export default function Window({ id }: { id: string }) {
   const toggleMaximize = useOSStore((state) => state.toggleMaximize)
   const dragControls = useDragControls()
   const [showCloseTooltip, setShowCloseTooltip] = useState(false)
+
+  // Formatting state
+  const [zoomLevel, setZoomLevel] = useState(1)
+  const [showZoomMenu, setShowZoomMenu] = useState(false)
+  const zoomMenuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (zoomMenuRef.current && !zoomMenuRef.current.contains(event.target as Node)) {
+        setShowZoomMenu(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const [isBold, setIsBold] = useState(false)
+  const [isItalic, setIsItalic] = useState(false)
+  const [isUnderline, setIsUnderline] = useState(false)
+  const [textAlign, setTextAlign] = useState<"left" | "center" | "right">("left")
+  const [fontFamily, setFontFamily] = useState<"sans" | "serif" | "mono">("sans")
 
   // Local state for resizing
   const initialWidth = windowData?.width || 960
@@ -185,7 +206,7 @@ export default function Window({ id }: { id: string }) {
             {showCloseTooltip && (
               <div className="absolute right-0 top-[calc(100%+6px)] z-[9999] pointer-events-none">
                 <div className="bg-[#1D1E20] text-white text-[11px] font-semibold px-3 py-2 rounded-lg shadow-xl whitespace-nowrap flex items-center gap-2">
-                  Close window
+                  Cerrar ventana
                   <span className="flex items-center gap-1">
                     <kbd className="bg-white/20 text-[10px] px-1.5 py-0.5 rounded font-medium">Shift</kbd>
                     <kbd className="bg-white/20 text-[10px] px-1.5 py-0.5 rounded font-medium">W</kbd>
@@ -199,7 +220,7 @@ export default function Window({ id }: { id: string }) {
       </div>
 
       {/* ── Formatting Toolbar ────────────────────────────────────────── */}
-      <div className="flex-shrink-0 h-[42px] bg-[var(--color-os-wbar)] border-b border-[var(--color-border-subtle)] flex items-center px-3 gap-1 overflow-x-auto">
+      <div className="flex-shrink-0 h-[42px] bg-[var(--color-os-wbar)] border-b border-[var(--color-border-subtle)] flex items-center px-3 gap-1 overflow-visible">
         {/* Nav */}
         {[
           <svg key="l" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>,
@@ -210,56 +231,94 @@ export default function Window({ id }: { id: string }) {
 
         <div className="w-px h-4 bg-[var(--color-border-subtle)] mx-1.5"/>
 
-        <div className="flex items-center gap-1 px-2.5 py-1 border border-[var(--color-border-subtle)] rounded-md cursor-pointer hover:bg-black/[0.04] text-[12px] text-[var(--color-text-muted)] font-semibold select-none">
-          Zoom
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        <div ref={zoomMenuRef} className="relative flex items-center" data-nodrag>
+          <button
+            onClick={() => setShowZoomMenu(!showZoomMenu)}
+            className="flex items-center gap-1.5 px-2.5 py-1 border border-[var(--color-border-subtle)] rounded-md hover:bg-black/[0.04] dark:hover:bg-white/[0.04] text-[12px] text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] font-semibold select-none transition-colors"
+          >
+            <span>{zoomLevel * 100}%</span>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={`transition-transform duration-150 ${showZoomMenu ? "rotate-180" : ""}`}>
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+
+          <AnimatePresence>
+            {showZoomMenu && (
+              <motion.div
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 2 }}
+                transition={{ duration: 0.1 }}
+                className="absolute left-0 top-[calc(100%+4px)] w-24 bg-[var(--color-menu-bg)] backdrop-blur-md border border-[var(--color-border-medium)] rounded-lg shadow-xl py-1 z-[1000] overflow-hidden"
+              >
+                {[0.75, 1, 1.25, 1.5].map((level) => (
+                  <button
+                    key={level}
+                    onClick={() => {
+                      setZoomLevel(level)
+                      setShowZoomMenu(false)
+                    }}
+                    className={`w-full text-left px-3 py-1.5 text-[12px] font-semibold flex items-center justify-between transition-colors
+                      ${zoomLevel === level 
+                        ? "bg-[var(--color-accent)] text-white" 
+                        : "text-[var(--color-text-main)] hover:bg-black/[0.06] dark:hover:bg-white/[0.06]"
+                      }
+                    `}
+                  >
+                    <span>{level * 100}%</span>
+                    {zoomLevel === level && (
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    )}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className="w-px h-4 bg-[var(--color-border-subtle)] mx-1.5"/>
 
         {[
-          { l: "B", cls: "font-black text-[14px]" },
-          { l: "I", cls: "italic font-bold text-[14px]" },
-          { l: "U", cls: "underline font-semibold text-[13px]" },
+          { l: "B", cls: "font-black text-[14px]", active: isBold, onClick: () => setIsBold(!isBold) },
+          { l: "I", cls: "italic font-bold text-[14px]", active: isItalic, onClick: () => setIsItalic(!isItalic) },
+          { l: "U", cls: "underline font-semibold text-[13px]", active: isUnderline, onClick: () => setIsUnderline(!isUnderline) },
         ].map(b => (
-          <button key={b.l} className={`w-8 h-8 flex items-center justify-center rounded-md hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-colors text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] ${b.cls}`}>{b.l}</button>
+          <button key={b.l} onClick={b.onClick} className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${b.active ? "bg-[var(--color-accent)] text-white" : "hover:bg-black/[0.06] dark:hover:bg-white/[0.06] text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"} ${b.cls}`}>{b.l}</button>
         ))}
 
         <div className="w-px h-4 bg-[var(--color-border-subtle)] mx-1.5"/>
 
         {[
-          <svg key="al" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>,
-          <svg key="ac" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>,
-          <svg key="ar" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>,
-        ].map((icon, i) => (
-          <button key={i} className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-colors text-[var(--color-text-muted)]">{icon}</button>
+          { align: "left", icon: <svg key="al" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg> },
+          { align: "center", icon: <svg key="ac" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg> },
+          { align: "right", icon: <svg key="ar" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg> },
+        ].map((a) => (
+          <button key={a.align} onClick={() => setTextAlign(a.align as any)} className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${textAlign === a.align ? "bg-[var(--color-border-medium)] text-[var(--color-text-main)]" : "hover:bg-black/[0.06] dark:hover:bg-white/[0.06] text-[var(--color-text-muted)]"}`}>{a.icon}</button>
         ))}
 
         <div className="w-px h-4 bg-[var(--color-border-subtle)] mx-1.5"/>
 
-        <div className="flex items-center gap-1 px-2.5 py-1 border border-[var(--color-border-subtle)] rounded-md cursor-pointer hover:bg-black/[0.04] text-[12px] text-[var(--color-text-muted)] font-semibold select-none">
-          Font
+        <div onClick={() => setFontFamily(f => f === "sans" ? "serif" : f === "serif" ? "mono" : "sans")} className="flex items-center gap-1 px-2.5 py-1 border border-[var(--color-border-subtle)] rounded-md cursor-pointer hover:bg-black/[0.04] text-[12px] text-[var(--color-text-muted)] font-semibold select-none capitalize">
+          {fontFamily === "sans" ? "Fuente" : fontFamily}
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
 
         <div className="flex-1"/>
-
-        <button className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-black/[0.06] dark:hover:bg-white/[0.06] transition-colors text-[var(--color-text-muted)]">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
-
-        <div className="w-px h-4 bg-[var(--color-border-subtle)] mx-1.5"/>
-
-        <button
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12.5px] font-bold text-white"
-          style={{ background: "var(--color-accent)", boxShadow: "0 2px 0 var(--color-accent-hover)" }}
-        >
-          Get started – free
-        </button>
       </div>
 
       {/* ── Window Body ───────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto bg-[var(--color-bg-primary)] px-10 py-7 text-[var(--color-text-main)] relative">
+      <div 
+        className={`flex-1 overflow-y-auto bg-[var(--color-bg-primary)] px-10 py-7 text-[var(--color-text-main)] relative
+          ${isBold ? "font-bold *:font-bold" : ""}
+          ${isItalic ? "italic *:italic" : ""}
+          ${isUnderline ? "underline *:underline" : ""}
+          ${textAlign === "center" ? "text-center *:text-center" : textAlign === "right" ? "text-right *:text-right" : "text-left *:text-left"}
+          ${fontFamily === "serif" ? "font-serif *:font-serif" : fontFamily === "mono" ? "font-mono *:font-mono" : "font-sans *:font-sans"}
+        `}
+        style={{ zoom: zoomLevel }}
+      >
         {windowData.content || (
           <div className="flex flex-col items-center justify-center h-full text-center opacity-40">
             <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mb-3">

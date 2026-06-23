@@ -116,11 +116,15 @@ export default function DesktopIcon({ id, title, x, y, right, content, desktopRe
   useEffect(() => {
     import("./WindowContent").then(mod => {
       setContents({
-        readme: React.createElement(mod.ReadmeContent),
+        readme:   React.createElement(mod.ReadmeContent),
         projects: React.createElement(mod.ProjectsContent),
-        skills: React.createElement(mod.SkillsContent),
-        contact: React.createElement(mod.ContactContent),
-        resume: React.createElement(mod.ResumeContent),
+        skills:   React.createElement(mod.SkillsContent),
+        contact:  React.createElement(mod.ContactContent),
+        resume:   React.createElement(mod.ResumeContent),
+        about:    React.createElement(mod.AboutContent),
+        blog:     React.createElement(mod.BlogContent),
+        store:    React.createElement(mod.StoreContent),
+        trash:    React.createElement(mod.TrashContent),
       })
     })
   }, [])

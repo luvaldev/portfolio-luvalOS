@@ -3,6 +3,7 @@
 @theme {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
 
   --color-ph-cream: #E8E5DC;
   --color-ph-dark: #1D1E20;
@@ -43,6 +44,8 @@
     --color-os-bg: #E8E5DC;
     /* Top bar and dock — semi-transparent white */
     --color-os-bar: rgba(235, 233, 224, 0.65);
+    /* Dropdown menus background */
+    --color-menu-bg: rgba(255, 255, 255, 0.72);
     /* Window chrome background */
     --color-os-window: #ffffff;
     /* Window titlebar */
@@ -77,6 +80,8 @@
     --color-os-bg: #0D0F1A;
     /* Top bar and dock */
     --color-os-bar: rgba(15, 17, 30, 0.55);
+    /* Dropdown menus background */
+    --color-menu-bg: rgba(15, 17, 30, 0.72);
     /* Window chrome */
     --color-os-window: #131629;
     /* Window titlebar */
@@ -114,6 +119,10 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display, var(--font-sans)), system-ui, -apple-system, sans-serif;
   }
   
   ::-webkit-scrollbar {
