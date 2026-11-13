@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function TechVelocity({ size = 24, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#ab82db" opacity=".18"/><text x="12" y="15.5" textAnchor="middle" fontSize="8" fontFamily="Arial, sans-serif" fontWeight="800" fill="#ab82db">VE</text></svg> }

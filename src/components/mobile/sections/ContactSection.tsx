@@ -5,8 +5,8 @@ import { motion } from "framer-motion"
 const LINKS = [
   {
     label: "Email",
-    value: "primary@luvaldev.lat",
-    href: "mailto:primary@luvaldev.lat",
+    value: "luvalprojects@gmail.com",
+    href: "mailto:luvalprojects@gmail.com",
     color: "#E8601A",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -48,7 +48,7 @@ export function ContactSection() {
     // Simple mailto fallback
     const subject = encodeURIComponent(`Contacto desde Portfolio - ${form.name}`)
     const body = encodeURIComponent(`Nombre: ${form.name}\nEmail: ${form.email}\n\n${form.message}`)
-    window.open(`mailto:primary@luvaldev.lat?subject=${subject}&body=${body}`, "_blank")
+    window.open(`mailto:luvalprojects@gmail.com?subject=${subject}&body=${body}`, "_blank")
     setSent(true)
     setForm({ name: "", email: "", message: "" })
   }

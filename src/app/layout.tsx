@@ -1,33 +1,30 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Inter, Silkscreen } from "next/font/google";
 import "./globals.css";
+import "./enchanted-books.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-// Plus Jakarta Sans — body text, clean geometry, very professional
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-// Space Grotesk — display/heading font, bold and geometric
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+const silkscreen = Silkscreen({
+  variable: "--font-pixel",
+  weight: ["400", "700"],
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "luvalOS — Portfolio",
-  description: "Portfolio interactivo estilo sistema operativo por Luval — Enfocado en Redes, Desarrollo de Software & Web",
+  title: "Luis Valdenegro (Luval) — Ingeniería de Software, Redes, Ciberseguridad & IoT",
+  description:
+    "Portafolio de Luis Valdenegro Mondaca (@luvaldev). Estudiante de Ingeniería Civil en Informática y Telecomunicaciones (UDP). Desarrollo Full-Stack (Next.js, NestJS, PostgreSQL), Ciberseguridad Forense (Python, Scapy) y Sistemas Embebidos (C++, ESP32).",
+  other: {
+    "page-type": "software",
+    "site-kind": "software",
+  },
   icons: {
     icon: "/favicon.svg",
   },
@@ -41,10 +38,11 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} h-full antialiased`}
+      data-type="software"
+      className={`${inter.variable} ${silkscreen.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="h-full flex flex-col font-sans">
+      <body className="min-h-full font-sans selection:bg-[#d4ff33] selection:text-[#090a0c]">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>

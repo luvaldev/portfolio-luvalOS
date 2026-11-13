@@ -64,7 +64,7 @@ export function StoreContent() {
     setCopied(true)
     setTimeout(() => setCopied(false), 3000)
 
-    const mailtoUrl = `mailto:primary@luvaldev.lat?subject=Cotización de Proyecto - ${serviceNames[calcService]}&body=${encodeURIComponent(proposalText)}`
+    const mailtoUrl = `mailto:luvalprojects@gmail.com?subject=Cotización de Proyecto - ${serviceNames[calcService]}&body=${encodeURIComponent(proposalText)}`
     window.location.href = mailtoUrl
   }
 
@@ -128,7 +128,7 @@ export function StoreContent() {
 
                     <div className="flex items-center gap-2">
                       <a
-                        href={`mailto:primary@luvaldev.lat?subject=Interés en servicio: ${service.title}`}
+                        href={`mailto:luvalprojects@gmail.com?subject=Interés en servicio: ${service.title}`}
                         className="px-3.5 py-1.5 rounded-lg text-[11.5px] font-bold text-white transition-opacity hover:opacity-90 flex items-center gap-1"
                         style={{ background: service.color }}
                       >

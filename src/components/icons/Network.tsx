@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function Network({ size = 22, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="5" r="2" stroke="currentColor" strokeWidth="1.5"/><circle cx="5" cy="18" r="2" stroke="currentColor" strokeWidth="1.5"/><circle cx="19" cy="18" r="2" stroke="currentColor" strokeWidth="1.5"/><path d="m11 7-5 9m7-9 5 9M7 18h10" stroke="currentColor" strokeWidth="1.5"/></svg> }

@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function TechWebpay({ size = 24, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="#e5459d" color="#e5459d" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor" opacity=".15"/><text x="12" y="15.4" textAnchor="middle" fontSize="8.4" fontFamily="Arial, sans-serif" fontWeight="800" fill="currentColor">WP</text></svg> }

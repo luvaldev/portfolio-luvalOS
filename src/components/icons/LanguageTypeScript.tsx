@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function LanguageTypeScript({ size = 24, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="3" fill="#3178C6"/><path d="M6 9h9M10.5 9v9M15.5 15.5c.8.7 2.8 1.1 3.3-.2.4-1-.1-1.6-1.6-2.1-1.2-.4-1.8-.9-1.5-1.9.3-1.2 2-1.5 3.2-.6" stroke="white" strokeWidth="1.7" strokeLinecap="round"/></svg> }

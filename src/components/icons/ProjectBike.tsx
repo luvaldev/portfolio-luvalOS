@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function ProjectBike({ size = 20, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="6" cy="17" r="3.5" stroke="currentColor" strokeWidth="1.4"/><circle cx="18" cy="17" r="3.5" stroke="currentColor" strokeWidth="1.4"/><path d="m6 17 4-7 4 7H6Zm4-7h4m0 0 4 7m-6-9h-2m8 0h2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg> }

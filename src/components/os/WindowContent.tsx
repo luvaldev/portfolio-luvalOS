@@ -1,11 +1,9 @@
-export { ReadmeContent } from "./Window/contents/ReadmeContent";
-export { AboutContent } from "./Window/contents/AboutContent";
-export { SiteInfoContent } from "./Window/contents/SiteInfoContent";
-export { ProjectsContent } from "./Window/contents/ProjectsContent";
-export { SkillsContent } from "./Window/contents/SkillsContent";
-export { ContactContent } from "./Window/contents/ContactContent";
-export { ResumeContent } from "./Window/contents/ResumeContent";
-export { BlogContent } from "./Window/contents/BlogContent";
-export { StoreContent } from "./Window/contents/StoreContent";
-export { TrashContent } from "./Window/contents/TrashContent";
-export { DemoViewer } from "./Window/contents/DemoViewer";
+export {
+  ArcadeHubContent,
+  MinecraftWebContent,
+  CreeperSweeperContent,
+  RedstoneSnakeContent,
+  NetherInvadersContent,
+  MemoryEnchantsContent,
+} from "./Window/contents/ArcadeGames"
+export { TrashContent } from "./Window/contents/TrashContent"

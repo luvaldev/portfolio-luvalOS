@@ -1,13 +1,8 @@
 "use client"
-import React, { useState, useEffect, useRef, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
+import React, { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 import { useOSStore } from "@/store/useOSStore"
-import * as WindowContent from "../WindowContent"
-import { Kbd, CI } from "./Utils";
-import { PROJECT_CATEGORIES, SKILL_CATEGORIES } from "./topBarData";
 
-// ─── Search Overlay ───────────────────────────────────────────────────────────
 export default function SearchOverlay({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState("")
   const { windows, openWindow, focusWindow } = useOSStore()
@@ -21,39 +16,43 @@ export default function SearchOverlay({ onClose }: { onClose: () => void }) {
   }, [onClose])
 
   const ALL_ITEMS = [
-    { id: "readme", label: "README.md", category: "Archivo", icon: "📄" },
-    { id: "projects", label: "Proyectos", category: "Carpeta", icon: "📁" },
-    { id: "skills", label: "Skills", category: "Archivo", icon: "⚡" },
-    { id: "contact", label: "Contacto", category: "Archivo", icon: "✉️" },
-    { id: "resume", label: "Curriculum Vitae", category: "Documento", icon: "📋" },
-    { id: "about", label: "Acerca de", category: "Documento", icon: "📝" },
-    { id: "blog", label: "Blog", category: "Archivo", icon: "📰" },
-    { id: "store", label: "Tienda", category: "Carpeta", icon: "🛒" },
-    { id: "trash", label: "Papelera", category: "Sistema", icon: "🗑️" },
+    { id: "arcade-hub", label: "Centro Arcade", category: "Lanzador de Minijuegos", icon: "🕹️", width: 940, height: 630 },
+    { id: "minecraft", label: "Minecraft Web (Eaglercraft)", category: "Juego Web 3D + Sandbox 2D", icon: "🟩", width: 1020, height: 670 },
+    { id: "creeper-sweeper", label: "CreeperSweeper", category: "Minijuego · Buscaminas TNT", icon: "💣", width: 720, height: 610 },
+    { id: "redstone-snake", label: "Redstone Snake", category: "Minijuego · Arcade Clásico", icon: "🔴", width: 680, height: 620 },
+    { id: "nether-invaders", label: "Nether Invaders", category: "Minijuego · Shooter Nether", icon: "⚔️", width: 740, height: 620 },
+    { id: "memory-enchants", label: "Memoria Arcana", category: "Minijuego · Runas de Encantamiento", icon: "📖", width: 660, height: 590 },
+    { id: "trash", label: "Papelera", category: "Sistema · Basurero Arcade", icon: "🗑️", width: 680, height: 540 },
   ]
 
   const filtered = query
     ? ALL_ITEMS.filter(i => i.label.toLowerCase().includes(query.toLowerCase()) || i.category.toLowerCase().includes(query.toLowerCase()))
-    : ALL_ITEMS.slice(0, 6)
+    : ALL_ITEMS
 
   const handleSelect = (item: typeof ALL_ITEMS[0]) => {
     if (windows[item.id]) {
       focusWindow(item.id)
     } else {
       import("../WindowContent").then(mod => {
-        const contentMap: Record<string, any> = {
-          readme: mod.ReadmeContent, projects: mod.ProjectsContent,
-          skills: mod.SkillsContent, contact: mod.ContactContent,
-          resume: mod.ResumeContent, about: mod.AboutContent,
-          blog: mod.BlogContent, store: mod.StoreContent,
+        const contentMap: Record<string, React.ComponentType> = {
+          "arcade-hub": mod.ArcadeHubContent,
+          minecraft: mod.MinecraftWebContent,
+          "creeper-sweeper": mod.CreeperSweeperContent,
+          "redstone-snake": mod.RedstoneSnakeContent,
+          "nether-invaders": mod.NetherInvadersContent,
+          "memory-enchants": mod.MemoryEnchantsContent,
           trash: mod.TrashContent,
         }
         const Comp = contentMap[item.id]
+        const openCount = Object.keys(windows).length
         openWindow(item.id, {
-          title: item.label, icon: item.icon,
+          title: item.label,
+          icon: item.icon,
           content: Comp ? React.createElement(Comp) : undefined,
-          x: 150 + Math.random() * 60, y: 55 + Math.random() * 30,
-          width: 960, height: 650,
+          x: 112 + (openCount % 4) * 28,
+          y: 52 + (openCount % 4) * 20,
+          width: item.width,
+          height: item.height,
         })
       })
     }
@@ -65,77 +64,57 @@ export default function SearchOverlay({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.15 }}
+      transition={{ duration: 0.14 }}
       className="fixed inset-0 z-[2000] flex items-start justify-center pt-[12vh]"
-      style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)" }}
+      style={{ background: "rgba(6,4,14,0.68)", backdropFilter: "blur(6px)" }}
       onClick={onClose}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: -12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: -8 }}
-        transition={{ duration: 0.15, ease: "easeOut" }}
-        className="w-full max-w-[560px] bg-[var(--color-bg-primary)] rounded-2xl shadow-[0_32px_80px_rgba(0,0,0,0.3)] overflow-hidden border border-[var(--color-border-medium)]"
+        transition={{ duration: 0.14, ease: "easeOut" }}
+        className="w-full max-w-[560px] bg-[#130c22] border-[3px] border-[#7c30a4] shadow-[6px_6px_0_#07040e] overflow-hidden"
         onClick={e => e.stopPropagation()}
       >
-        {/* Search input */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--color-border-subtle)]">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-[var(--color-text-muted)] flex-shrink-0">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b-2 border-[#3c245f] bg-[#1a1030]">
+          <span className="mc-pixel-font text-[12px] text-[#ffcf4d]">🔍</span>
           <input
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Buscar en luvalOS..."
-            className="flex-1 bg-transparent text-[15px] text-[var(--color-text-main)] placeholder:text-[var(--color-text-muted)] outline-none"
+            placeholder="Buscar juego o comando en luvalOS..."
+            className="flex-1 bg-transparent text-[14px] font-mono text-[#eef5ff] placeholder:text-[#9c8db8] outline-none"
           />
-          <kbd className="text-[11px] text-[var(--color-text-muted)] bg-[var(--color-os-bg)] border border-[var(--color-border-subtle)] px-1.5 py-0.5 rounded font-mono">ESC</kbd>
+          <kbd className="text-[10px] mc-pixel-font text-[#ffcf4d] bg-[#0d0818] border-2 border-[#3c245f] px-1.5 py-0.5">ESC</kbd>
         </div>
 
-        {/* Results */}
         <div className="py-2 max-h-[380px] overflow-y-auto">
           {filtered.length === 0 ? (
-            <div className="text-center py-10 text-[var(--color-text-muted)]">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mx-auto mb-2 opacity-40">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-              <p className="text-sm">Sin resultados para "{query}"</p>
+            <div className="text-center py-10 text-[#9c8db8] font-mono">
+              <p className="text-sm">Sin resultados para &ldquo;{query}&rdquo;</p>
             </div>
           ) : (
             <>
-              <div className="px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-muted)]">
-                {query ? "Resultados" : "Apertura rápida"}
+              <div className="px-4 py-1 mc-pixel-font text-[9px] uppercase tracking-widest text-[#9c8db8]">
+                {query ? "Resultados" : "Minijuegos & Sistema"}
               </div>
               {filtered.map(item => (
                 <button
                   key={item.id}
                   onClick={() => handleSelect(item)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--color-hover-bg)] transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#2a1946] transition-colors text-left border-l-2 border-transparent hover:border-[#2ee86c]"
                 >
                   <span className="text-lg">{item.icon}</span>
                   <div>
-                    <div className="text-[13.5px] font-semibold text-[var(--color-text-main)]">{item.label}</div>
-                    <div className="text-[11px] text-[var(--color-text-muted)]">{item.category}</div>
+                    <div className="mc-pixel-font text-[11px] font-bold text-[#eef5ff]">{item.label}</div>
+                    <div className="text-[11px] font-mono text-[#a9a1c7]">{item.category}</div>
                   </div>
-                  <svg className="ml-auto text-[var(--color-text-muted)]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="9 18 15 12 9 6"/>
-                  </svg>
+                  <span className="ml-auto mc-pixel-font text-[9px] text-[#ffcf4d]">ABRIR ▸</span>
                 </button>
               ))}
             </>
           )}
-        </div>
-
-        <div className="px-4 py-2.5 border-t border-[var(--color-border-subtle)] flex items-center gap-4">
-          <span className="text-[11px] text-[var(--color-text-muted)]">
-            <kbd className="bg-[var(--color-os-bg)] border border-[var(--color-border-subtle)] px-1 py-0.5 rounded text-[10px] font-mono mr-1">↵</kbd>
-            Abrir
-          </span>
-          <span className="text-[11px] text-[var(--color-text-muted)]">
-            <kbd className="bg-[var(--color-os-bg)] border border-[var(--color-border-subtle)] px-1 py-0.5 rounded text-[10px] font-mono mr-1">ESC</kbd>
-            Cerrar
-          </span>
         </div>
       </motion.div>
     </motion.div>

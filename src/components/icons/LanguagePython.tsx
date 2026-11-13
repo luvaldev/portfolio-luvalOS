@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function LanguagePython({ size = 24, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5H8a4 4 0 0 0-4 4v3.5h8v2H6a3.5 3.5 0 0 0-3.5 3.5V17A4.5 4.5 0 0 0 7 21.5h3V18" fill="#3776AB"/><path d="M12 21.5h4a4 4 0 0 0 4-4V14h-8v-2h6a3.5 3.5 0 0 0 3.5-3.5V7A4.5 4.5 0 0 0 17 2.5h-3V6" fill="#FFD43B"/><circle cx="8" cy="6.5" r="1" fill="white"/><circle cx="16" cy="17.5" r="1" fill="#443B18"/></svg> }

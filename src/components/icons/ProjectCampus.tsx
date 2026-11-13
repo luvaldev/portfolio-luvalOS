@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function ProjectCampus({ size = 20, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5-9-5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M6 11v5.5c3.8 3 8.2 3 12 0V11M3 9v7m0 0-1.2 2.5h2.4L3 16Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/><path d="M9 15v-2h6v2" stroke="currentColor" strokeWidth="1.3"/></svg> }

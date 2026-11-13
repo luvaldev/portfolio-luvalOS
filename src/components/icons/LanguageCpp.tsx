@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function LanguageCpp({ size = 24, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 2 9 5v10l-9 5-9-5V7z" fill="#4B66A4"/><path d="M11 8.5a4 4 0 1 0 0 7" stroke="white" strokeWidth="2" strokeLinecap="round"/><path d="M14 10.5v4m-2-2h4m2-2v4m-2-2h4" stroke="white" strokeWidth="1.2" strokeLinecap="round"/></svg> }

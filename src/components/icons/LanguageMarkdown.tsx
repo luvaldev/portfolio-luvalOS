@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function LanguageMarkdown({ size = 24, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2" fill="#46536D"/><path d="M5 15V9l3 3 3-3v6m3-2 2.5 2.5L19 13m-2.5 2.5V9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> }

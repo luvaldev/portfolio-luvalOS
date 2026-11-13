@@ -1,0 +1,2 @@
+import type { IconProps } from "./IconProps"
+export default function Spark({ size = 20, className }: IconProps) { return <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5 14.2 9.8 21.5 12l-7.3 2.2L12 21.5l-2.2-7.3L2.5 12l7.3-2.2L12 2.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/><path d="m19 2 .6 2.1L22 5l-2.4.8L19 8l-.7-2.2L16 5l2.3-.9L19 2Z" fill="currentColor"/></svg> }
