@@ -143,45 +143,47 @@ function WorldWalkers({ walkers }: { walkers: WorldWalker[] }) {
           className={`mc-world-walker${mob.partner ? " mc-world-couple" : ""} ${mob.className}`}
           style={mob.style}
         >
-          <Image
-            src={mob.src}
-            alt={mob.alt}
-            width={56}
-            height={56}
-            loading="lazy"
-            decoding="async"
-            unoptimized
-            style={{ imageRendering: "pixelated" }}
-            className="mc-walker-sprite"
-          />
-          {mob.partner && (
+          {mob.partner ? (
             <>
-              <svg
-                className="mc-couple-heart"
-                viewBox="0 0 9 8"
-                width="14"
-                height="13"
-                shapeRendering="crispEdges"
-                aria-hidden="true"
-              >
-                <path
-                  d="M1 0h2v1h1v1h1V1h1V0h2v1h1v3H8v1H7v1H6v1H5v1H4V7H3V6H2V5H1V4H0V1h1z"
-                  fill="#ff4d7e"
+              <span className="mc-walker-unit">
+                <Image
+                  src={mob.src}
+                  alt={mob.alt}
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
+                  unoptimized
+                  style={{ imageRendering: "pixelated" }}
+                  className="mc-walker-sprite"
                 />
-                <rect x="1" y="1" width="1" height="1" fill="#ff9ebb" />
-              </svg>
-              <Image
-                src={mob.partner.src}
-                alt={mob.partner.alt}
-                width={56}
-                height={56}
-                loading="lazy"
-                decoding="async"
-                unoptimized
-                style={{ imageRendering: "pixelated" }}
-                className="mc-walker-sprite mc-partner-sprite"
-              />
+              </span>
+              <span className="mc-walker-unit">
+                <Image
+                  src={mob.partner.src}
+                  alt={mob.partner.alt}
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
+                  unoptimized
+                  style={{ imageRendering: "pixelated" }}
+                  className="mc-walker-sprite mc-partner-sprite"
+                />
+              </span>
             </>
+          ) : (
+            <Image
+              src={mob.src}
+              alt={mob.alt}
+              width={56}
+              height={56}
+              loading="lazy"
+              decoding="async"
+              unoptimized
+              style={{ imageRendering: "pixelated" }}
+              className="mc-walker-sprite"
+            />
           )}
         </div>
       ))}

@@ -2,13 +2,13 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useOSStore } from "@/store/useOSStore"
+import Minecraft3DSandbox, { BLOCK_DEFS_3D, type BlockType3D } from "./Minecraft3DSandbox"
 import {
   PixelBookSprite,
   PixelCommandBlockIcon,
   PixelDiamondIcon,
   PixelEmeraldIcon,
   PixelEnderChestIcon,
-  PixelExternalLinkIcon,
   PixelFurnaceIcon,
   PixelGrassBlockIcon,
   PixelRedstoneRepeaterIcon,
@@ -236,13 +236,76 @@ function createInitialTerrain(): VoxelBlockId[][] {
   return grid
 }
 
+const EAGLER_EMBED_VERSIONS = [
+  {
+    id: "1.12.2",
+    label: "1.12.2",
+    title: "Eaglercraft 1.12.2 (World of Color)",
+    url: "https://client.eaglercraft.win/eagler-files/1.12/Main/index.html",
+  },
+  {
+    id: "1.8.8",
+    label: "1.8.8",
+    title: "EaglercraftX 1.8.8 (The Bountiful)",
+    url: "https://client.eaglercraft.win/eagler-files/1.8/Main/index.html",
+  },
+  {
+    id: "1.5.2",
+    label: "1.5.2",
+    title: "Eaglercraft 1.5.2 (Redstone Update)",
+    url: "https://client.eaglercraft.win/eagler-files/1.5.2/main/index.html",
+  },
+  {
+    id: "classic",
+    label: "Classic",
+    title: "Minecraft Classic (Mojang WebGL)",
+    url: "https://classic.minecraft.net/",
+  },
+] as const
+
+type EmbedVersionId = (typeof EAGLER_EMBED_VERSIONS)[number]["id"]
+
 export function MinecraftWebContent() {
-  const [mode, setMode] = useState<"eagler" | "sandbox">("eagler")
-  const iframeContainerRef = useRef<HTMLDivElement>(null)
+  const [mode, setMode] = useState<"eagler" | "3d" | "sandbox">("eagler")
+  const [embedVersion, setEmbedVersion] = useState<EmbedVersionId>("1.8.8")
+  const [embedPhase, setEmbedPhase] = useState<"loading" | "ready" | "playing">("loading")
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const stageContainerRef = useRef<HTMLDivElement>(null)
+  const [selectedBlock3D, setSelectedBlock3D] = useState<BlockType3D>("grass")
+  const [seed3D, setSeed3D] = useState(1)
   const [selectedBlock, setSelectedBlock] = useState<Exclude<VoxelBlockId, "air">>("grass")
   const [terrain, setTerrain] = useState<VoxelBlockId[][]>(() => createInitialTerrain())
   const [isPainting, setIsPainting] = useState(false)
   const [creeperCol, setCreeperCol] = useState(14)
+
+  const activeEmbed =
+    EAGLER_EMBED_VERSIONS.find((v) => v.id === embedVersion) ?? EAGLER_EMBED_VERSIONS[1]
+
+  const switchEmbedVersion = (nextId: EmbedVersionId) => {
+    setEmbedPhase("loading")
+    setEmbedVersion(nextId)
+  }
+
+  const handleIframeLoad = () => {
+    setEmbedPhase("ready")
+  }
+
+  useEffect(() => {
+    if (mode !== "eagler" || embedPhase !== "ready") return
+    const handleWindowBlur = () => {
+      setEmbedPhase("playing")
+    }
+    const handleKeyDown = () => {
+      iframeRef.current?.focus()
+      setEmbedPhase("playing")
+    }
+    window.addEventListener("blur", handleWindowBlur)
+    window.addEventListener("keydown", handleKeyDown, { once: true })
+    return () => {
+      window.removeEventListener("blur", handleWindowBlur)
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [mode, embedPhase])
 
   // Move mini pixel mob slowly inside 2D sandbox
   useEffect(() => {
@@ -254,7 +317,7 @@ export function MinecraftWebContent() {
   }, [mode])
 
   const enterFullscreen = () => {
-    iframeContainerRef.current?.requestFullscreen?.().catch(() => {})
+    stageContainerRef.current?.requestFullscreen?.().catch(() => {})
   }
 
   const handleCellAction = (r: number, c: number, erase = false) => {
@@ -286,7 +349,7 @@ export function MinecraftWebContent() {
     <div className="flex flex-col h-full text-[#f4edff] gap-3">
       {/* Control Strip */}
       <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-[#19112b] border-2 border-[#3c2763]">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setMode("eagler")}
@@ -296,7 +359,18 @@ export function MinecraftWebContent() {
                 : "bg-[#130d21] border-[#322252] text-[#b9add1] hover:text-white"
             }`}
           >
-            EAGLERCRAFT WEB (1.8 / 1.12)
+            EAGLERCRAFT REAL
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("3d")}
+            className={`px-3 py-1.5 text-[11px] mc-pixel-font font-bold border-2 cursor-pointer transition-colors ${
+              mode === "3d"
+                ? "bg-[#224e73] border-[#38c6f4] text-[#ffffff]"
+                : "bg-[#130d21] border-[#322252] text-[#b9add1] hover:text-white"
+            }`}
+          >
+            MINECRAFT 3D (LOCAL)
           </button>
           <button
             type="button"
@@ -307,31 +381,39 @@ export function MinecraftWebContent() {
                 : "bg-[#130d21] border-[#322252] text-[#b9add1] hover:text-white"
             }`}
           >
-            MINI-CRAFT 2D SANDBOX
+            MINI-CRAFT 2D
           </button>
         </div>
 
-        <div className="flex items-center gap-2">
-          {mode === "eagler" ? (
-            <>
-              <button
-                type="button"
-                onClick={enterFullscreen}
-                className="px-3 py-1.5 text-[11px] mc-pixel-font font-bold bg-[#251840] border-2 border-[#5c3c99] text-[#ffe694] hover:border-[#ffcf4d] cursor-pointer"
-              >
-                PANTALLA COMPLETA
-              </button>
-              <a
-                href="https://eaglercraft.com/es/play"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] mc-pixel-font font-bold bg-[#1a5c2d] border-2 border-[#2ee86c] text-[#ffffff] hover:brightness-110"
-              >
-                <span>ABRIR EAGLERCRAFT</span>
-                <PixelExternalLinkIcon size={14} />
-              </a>
-            </>
-          ) : (
+        <div className="flex flex-wrap items-center gap-2">
+          {mode === "eagler" && (
+            <div className="flex items-center gap-1 bg-[#110a1f] p-1 border border-[#322252]">
+              {EAGLER_EMBED_VERSIONS.map((ver) => (
+                <button
+                  key={ver.id}
+                  type="button"
+                  onClick={() => switchEmbedVersion(ver.id)}
+                  className={`px-2 py-1 text-[10px] mc-pixel-font font-bold cursor-pointer transition-colors ${
+                    embedVersion === ver.id
+                      ? "bg-[#207339] text-white"
+                      : "text-[#b9add1] hover:text-white"
+                  }`}
+                >
+                  {ver.label}
+                </button>
+              ))}
+            </div>
+          )}
+          {mode === "3d" && (
+            <button
+              type="button"
+              onClick={() => setSeed3D((s) => s + 1)}
+              className="px-3 py-1.5 text-[11px] mc-pixel-font font-bold bg-[#251840] border-2 border-[#5c3c99] text-[#52ffd5] hover:border-[#2ee86c] cursor-pointer"
+            >
+              REGENERAR MUNDO
+            </button>
+          )}
+          {mode === "sandbox" && (
             <button
               type="button"
               onClick={() => setTerrain(createInitialTerrain())}
@@ -340,29 +422,133 @@ export function MinecraftWebContent() {
               REGENERAR MUNDO
             </button>
           )}
+          {mode !== "sandbox" && (
+            <button
+              type="button"
+              onClick={enterFullscreen}
+              className="px-3 py-1.5 text-[11px] mc-pixel-font font-bold bg-[#251840] border-2 border-[#5c3c99] text-[#ffe694] hover:border-[#ffcf4d] cursor-pointer"
+            >
+              PANTALLA COMPLETA
+            </button>
+          )}
         </div>
       </div>
 
       {mode === "eagler" ? (
-        <div ref={iframeContainerRef} className="relative flex-1 min-h-[420px] bg-[#07040f] border-3 border-[#140a24] flex flex-col">
+        <div
+          ref={stageContainerRef}
+          className="relative flex-1 min-h-[430px] bg-[#07040f] border-3 border-[#140a24] flex flex-col overflow-hidden"
+        >
           <iframe
-            title="Minecraft Web · Eaglercraft"
-            src="https://eaglercraft.com/es/play"
+            ref={iframeRef}
+            key={activeEmbed.id}
+            title={activeEmbed.title}
+            src={activeEmbed.url}
+            onLoad={handleIframeLoad}
             className="w-full flex-1 border-0 bg-black"
             allow="fullscreen; pointer-lock; autoplay; gamepad; clipboard-read; clipboard-write"
             allowFullScreen
           />
-          <div className="px-3 py-2 bg-[#140d24] border-t-2 border-[#2d1e4a] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#cfc6e3]">
+
+          {embedPhase !== "playing" && (
+            <div
+              className={`absolute inset-0 z-20 flex flex-col items-center justify-center gap-5 bg-[#0a0614] p-6 ${
+                embedPhase === "ready" ? "pointer-events-none" : ""
+              }`}
+            >
+              <div className="mc-cube-loader-scene" aria-hidden="true">
+                <div className="mc-cube-loader">
+                  <div className="mc-cube-face mc-cube-face-front mc-cube-face-side" />
+                  <div className="mc-cube-face mc-cube-face-back mc-cube-face-side" />
+                  <div className="mc-cube-face mc-cube-face-right mc-cube-face-side" />
+                  <div className="mc-cube-face mc-cube-face-left mc-cube-face-side" />
+                  <div className="mc-cube-face mc-cube-face-top" />
+                  <div className="mc-cube-face mc-cube-face-bottom" />
+                </div>
+              </div>
+
+              <div className="text-center space-y-1.5">
+                <p className="mc-pixel-font text-[13px] font-bold text-[#2ee86c] tracking-wider">
+                  {embedPhase === "loading"
+                    ? `CARGANDO ${activeEmbed.title.toUpperCase()}...`
+                    : `${activeEmbed.title.toUpperCase()} LISTO`}
+                </p>
+                <p className="font-mono text-[11px] text-[#b9add1]">
+                  {embedPhase === "loading"
+                    ? "Inicializando motor WebGL y texturas en luvalOS"
+                    : "Haz clic en cualquier parte de esta pantalla para activar sonido y entrar"}
+                </p>
+              </div>
+
+              {embedPhase === "loading" ? (
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-56 h-3 bg-[#150d26] border-2 border-[#3a2561] p-0.5 overflow-hidden">
+                    <div className="h-full w-full bg-[#2ee86c] animate-pulse" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEmbedPhase("playing")}
+                    className="px-3 py-1 text-[10px] mc-pixel-font text-[#ffcf4d] border border-[#4a3275] bg-[#160e28] hover:border-[#ffcf4d] cursor-pointer"
+                  >
+                    MOSTRAR JUEGO AHORA
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2">
+                  <span className="px-4 py-2 bg-[#1a5c2d] border-2 border-[#2ee86c] text-white mc-pixel-font text-[11px] font-bold shadow-[3px_3px_0_#071c0d]">
+                    ▶ CLIC EN EL FONDO PARA JUGAR
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setEmbedPhase("playing")}
+                    className="pointer-events-auto px-3 py-1 text-[10px] mc-pixel-font text-[#ffcf4d] border border-[#4a3275] bg-[#160e28] hover:border-[#ffcf4d] cursor-pointer"
+                  >
+                    OCULTAR PANTALLA DE CARGA
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="px-3 py-1.5 bg-[#140d24] border-t-2 border-[#2d1e4a] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#cfc6e3]">
             <span>
-              Si tu navegador bloquea iframes externos (X-Frame-Options), usa{" "}
-              <strong className="text-[#52ffd5]">ABRIR EAGLERCRAFT ↗</strong> o juega al instante en{" "}
-              <button
-                type="button"
-                onClick={() => setMode("sandbox")}
-                className="underline text-[#ffcf4d] hover:text-white cursor-pointer"
-              >
-                Mini-Craft 2D Sandbox
-              </button>.
+              Ejecutando <strong className="text-[#2ee86c]">{activeEmbed.title}</strong> dentro de luvalOS.
+            </span>
+            <span className="text-[#a99ec4]">
+              Si una versión tarda en iniciar, prueba cambiar a <strong className="text-[#52ffd5]">1.8.8</strong>,{" "}
+              <strong className="text-[#ffcf4d]">Classic</strong> o <strong className="text-[#38c6f4]">Minecraft 3D (Local)</strong>.
+            </span>
+          </div>
+        </div>
+      ) : mode === "3d" ? (
+        <div ref={stageContainerRef} className="flex-1 flex flex-col gap-2.5 min-h-[420px]">
+          <Minecraft3DSandbox
+            selectedBlock={selectedBlock3D}
+            onSelectBlock={setSelectedBlock3D}
+            seedTrigger={seed3D}
+          />
+          {/* 3D Hotbar */}
+          <div className="flex flex-wrap items-center justify-between gap-2 p-2 bg-[#19112b] border-2 border-[#3c2763]">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {BLOCK_DEFS_3D.map((blk, idx) => (
+                <button
+                  key={blk.id}
+                  type="button"
+                  onClick={() => setSelectedBlock3D(blk.id)}
+                  className={`flex items-center gap-1.5 px-2 py-1 text-[10px] mc-pixel-font border-2 cursor-pointer transition-transform ${
+                    selectedBlock3D === blk.id
+                      ? "bg-[#312154] border-[#ffcf4d] text-white -translate-y-0.5"
+                      : "bg-[#120c21] border-[#2e204a] text-[#b9add1]"
+                  }`}
+                >
+                  <span className="text-[9px] text-[#8d7eb0]">{idx + 1}</span>
+                  <span className="w-3.5 h-3.5 border border-black" style={{ background: blk.colorTop }} />
+                  <span>{blk.label}</span>
+                </button>
+              ))}
+            </div>
+            <span className="text-[11px] font-mono text-[#cfc6e3]">
+              Eaglercraft bloquea iframes externos; este motor 3D corre 100% local en tu navegador.
             </span>
           </div>
         </div>
