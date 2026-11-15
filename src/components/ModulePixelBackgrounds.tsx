@@ -128,13 +128,21 @@ type WorldWalker = {
   alt: string
   className: string
   style: React.CSSProperties
+  partner?: {
+    src: string
+    alt: string
+  }
 }
 
 function WorldWalkers({ walkers }: { walkers: WorldWalker[] }) {
   return (
     <div className="mc-world-mobs-layer">
       {walkers.map((mob, idx) => (
-        <div key={`${mob.src}-${idx}`} className={`mc-world-walker ${mob.className}`} style={mob.style}>
+        <div
+          key={`${mob.src}-${idx}`}
+          className={`mc-world-walker${mob.partner ? " mc-world-couple" : ""} ${mob.className}`}
+          style={mob.style}
+        >
           <Image
             src={mob.src}
             alt={mob.alt}
@@ -146,6 +154,35 @@ function WorldWalkers({ walkers }: { walkers: WorldWalker[] }) {
             style={{ imageRendering: "pixelated" }}
             className="mc-walker-sprite"
           />
+          {mob.partner && (
+            <>
+              <svg
+                className="mc-couple-heart"
+                viewBox="0 0 9 8"
+                width="14"
+                height="13"
+                shapeRendering="crispEdges"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 0h2v1h1v1h1V1h1V0h2v1h1v3H8v1H7v1H6v1H5v1H4V7H3V6H2V5H1V4H0V1h1z"
+                  fill="#ff4d7e"
+                />
+                <rect x="1" y="1" width="1" height="1" fill="#ff9ebb" />
+              </svg>
+              <Image
+                src={mob.partner.src}
+                alt={mob.partner.alt}
+                width={56}
+                height={56}
+                loading="lazy"
+                decoding="async"
+                unoptimized
+                style={{ imageRendering: "pixelated" }}
+                className="mc-walker-sprite mc-partner-sprite"
+              />
+            </>
+          )}
         </div>
       ))}
     </div>
@@ -275,6 +312,12 @@ const VILLAGE_WALKERS: WorldWalker[] = [
     alt: "Cerdito en la granja",
     className: "mc-walk-side-l",
     style: { right: "4.5%", top: "28%", animationDuration: "16s", animationDelay: "-6s" },
+  },
+  {
+    src: "/minecraft/avatar-minecraft-forcexvip-drops.png",
+    alt: "Forcexvip recorriendo el camino sur de la aldea",
+    className: "mc-walk-wide-r",
+    style: { left: "3.8%", top: "40%", animationDuration: "22s", animationDelay: "-11s" },
   },
 ]
 
@@ -486,6 +529,10 @@ const CHERRY_WALKERS: WorldWalker[] = [
     alt: "Lwcho cerca de la cabaña de cerezo",
     className: "mc-walk-side-r",
     style: { left: "2.4%", top: "72%", animationDuration: "19s", animationDelay: "-10s" },
+    partner: {
+      src: "/minecraft/avatar-minecraft-f773ba9a2d33b707-drops.png",
+      alt: "Pareja de Lwcho paseando juntos entre los cerezos",
+    },
   },
   {
     src: "/minecraft/avatar-minecraft-alex-drops.png",
@@ -516,6 +563,12 @@ const CHERRY_WALKERS: WorldWalker[] = [
     alt: "Cerdito entre los cerezos",
     className: "mc-walk-side-l",
     style: { right: "4.6%", top: "88%", animationDuration: "17s", animationDelay: "-4s" },
+  },
+  {
+    src: "/minecraft/avatar-minecraft-forcexvip-drops.png",
+    alt: "Forcexvip explorando la arboleda de cerezos",
+    className: "mc-walk-wide-l",
+    style: { right: "3.4%", top: "30%", animationDuration: "21s", animationDelay: "-9s" },
   },
 ]
 
@@ -770,6 +823,12 @@ const DESERT_WALKERS: WorldWalker[] = [
     className: "mc-walk-side-l",
     style: { right: "4.2%", top: "82%", animationDuration: "17s", animationDelay: "-6s" },
   },
+  {
+    src: "/minecraft/avatar-minecraft-forcexvip-drops.png",
+    alt: "Forcexvip vigilando las dunas del desierto",
+    className: "mc-walk-side-r",
+    style: { left: "3.6%", top: "36%", animationDuration: "21s", animationDelay: "-7s" },
+  },
 ]
 
 export function SandstoneOutpostPattern() {
@@ -957,6 +1016,16 @@ const BASTION_WALKERS: WorldWalker[] = [
     alt: "Lwcho patrullando la entrada del bastión",
     className: "mc-walk-circuit",
     style: { right: "4.6%", top: "30%", animationDuration: "22s", animationDelay: "-6s" },
+    partner: {
+      src: "/minecraft/avatar-minecraft-f773ba9a2d33b707-drops.png",
+      alt: "Pareja de Lwcho acompañándolo en el bastión",
+    },
+  },
+  {
+    src: "/minecraft/avatar-minecraft-forcexvip-drops.png",
+    alt: "Forcexvip en el flanco izquierdo del bastión",
+    className: "mc-walk-side-r",
+    style: { left: "3.8%", top: "38%", animationDuration: "20s", animationDelay: "-8s" },
   },
 ]
 
@@ -1148,6 +1217,10 @@ const ARENA_WALKERS: WorldWalker[] = [
     alt: "Lwcho patrullando el pasillo izquierdo de Actividades",
     className: "mc-walk-side-r",
     style: { left: "1.8%", top: "18%", animationDuration: "18s" },
+    partner: {
+      src: "/minecraft/avatar-minecraft-f773ba9a2d33b707-drops.png",
+      alt: "Pareja de Lwcho caminando juntos en Actividades",
+    },
   },
   {
     src: "/minecraft/avatar-minecraft-alex-drops.png",
@@ -1178,6 +1251,12 @@ const ARENA_WALKERS: WorldWalker[] = [
     alt: "Creeper junto a los trofeos del coliseo",
     className: "mc-walk-side-l",
     style: { right: "2.4%", top: "78%", animationDuration: "20s", animationDelay: "-11s" },
+  },
+  {
+    src: "/minecraft/avatar-minecraft-forcexvip-drops.png",
+    alt: "Forcexvip recorriendo el costado derecho de la arena",
+    className: "mc-walk-wide-l",
+    style: { right: "3.8%", top: "32%", animationDuration: "22s", animationDelay: "-6s" },
   },
 ]
 

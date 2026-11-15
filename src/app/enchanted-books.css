@@ -935,6 +935,38 @@
   filter:drop-shadow(2px 2px 0 rgb(10 8 16 / .65));
   animation:mc-sprite-bob 520ms steps(2,end) infinite;
 }
+.mc-world-couple {
+  width:92px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.mc-world-couple::after {
+  left:8px;
+  right:8px;
+}
+.mc-world-couple .mc-walker-sprite {
+  width:46px;
+  height:46px;
+  flex-shrink:0;
+}
+.mc-world-couple .mc-partner-sprite {
+  margin-left:-4px;
+  animation-delay:-260ms;
+}
+.mc-couple-heart {
+  position:absolute;
+  top:-10px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+  filter:drop-shadow(1px 1px 0 rgb(16 6 12 / .85));
+  animation:mc-heart-float 1.6s steps(3,end) infinite;
+}
+@keyframes mc-heart-float {
+  0%,100% { transform:translate(-50%, 0); opacity:.92; }
+  50% { transform:translate(-50%, -5px); opacity:1; }
+}
 .mc-walk-side-r  { animation:mc-walk-side-r 19s linear infinite; }
 .mc-walk-side-l  { animation:mc-walk-side-l 19s linear infinite; }
 .mc-walk-wide-r  { animation:mc-walk-wide-r 24s ease-in-out infinite; }
