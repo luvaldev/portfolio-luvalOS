@@ -57,6 +57,7 @@ import {
 } from "@/components/ModulePixelBackgrounds"
 import EnchantedBookOrnament from "@/components/icons/EnchantedBookOrnament"
 import PixelMenuIcon from "@/components/icons/PixelMenuIcon"
+import CrtPcTransition from "@/components/transition/CrtPcTransition"
 
 // ─── DATA DEFINITIONS ─────────────────────────────────────────────────────────
 
@@ -912,11 +913,21 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
   const [activeProjectIndex, setActiveProjectIndex] = useState(0)
   const [bookTurn, setBookTurn] = useState(false)
   const [turningOut, setTurningOut] = useState(false)
+  const [crtLaunching, setCrtLaunching] = useState(false)
   const turnTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const mobileBookIndexRef = useRef<HTMLDivElement | null>(null)
 
   const openArcadeComputer = () => {
-    if (!canOpenComputer || typeof window === "undefined" || window.innerWidth < 768) return
+    if (!canOpenComputer || crtLaunching || typeof window === "undefined" || window.innerWidth < 768) return
+    setCrtLaunching(true)
+  }
+
+  const handleCrtLaunchComplete = () => {
+    try {
+      sessionStorage.setItem("luval-crt-boot", "1")
+    } catch {
+      // Ignore storage errors
+    }
     router.push("/os")
   }
   const [copiedEmail, setCopiedEmail] = useState(false)
@@ -2132,12 +2143,12 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
               <button
                 type="button"
                 onClick={onReturnNormal}
-                title="Volver al portafolio minimalista"
-                aria-label="Volver al portafolio minimalista"
+                title="Volver al Overworld"
+                aria-label="Volver al Overworld"
                 className="mc-footer-link inline-flex items-center gap-2 cursor-pointer"
               >
                 <PixelEnderChestIcon size={20} />
-                <span className="mc-pixel-font text-[10px]">VISTA MINIMALISTA</span>
+                <span className="mc-pixel-font text-[10px]">VOLVER AL OVERWORLD</span>
               </button>
             )}
           </div>
@@ -2199,6 +2210,19 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
                 <span className="mc-pixel-font text-[11px]">/cv</span>
                 <span className="text-[#ffe694]">Abrir Currículum</span>
               </a>
+              {onReturnNormal && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCommandOpen(false)
+                    onReturnNormal()
+                  }}
+                  className="mc-cmd-row w-full text-left"
+                >
+                  <span className="mc-pixel-font text-[11px]">/overworld</span>
+                  <span className="text-[#52ffd5]">Volver al Overworld</span>
+                </button>
+              )}
             </div>
 
             <div className="pt-2 border-t-2 border-[#3a1f5e] text-[10px] mc-pixel-font text-[#c7b8db] text-center">
@@ -2546,6 +2570,12 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
           </div>
         </div>
       )}
+
+      <CrtPcTransition
+        mode="collapse"
+        active={crtLaunching}
+        onComplete={handleCrtLaunchComplete}
+      />
     </div>
   )
 }

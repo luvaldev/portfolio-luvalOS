@@ -1,6 +1,7 @@
 import Link from "next/link"
 import DesktopEnvironment from "@/components/os/DesktopEnvironment"
 import { PixelCommandBlockIcon, PixelTntBlockIcon } from "@/components/icons/PixelIcons"
+import { CrtBootOverlay } from "@/components/transition/CrtPcTransition"
 
 export const metadata = {
   title: "luvalOS // Computador Arcade · Luis Valdenegro",
@@ -12,7 +13,9 @@ export default function OSPage() {
     <main className="w-full min-h-screen bg-[#0c0717] text-[#f5f0ff]">
       {/* Desktop PC: Full Interactive Minecraft Arcade Computer */}
       <div className="hidden md:block w-full h-screen overflow-hidden">
-        <DesktopEnvironment />
+        <CrtBootOverlay>
+          <DesktopEnvironment />
+        </CrtBootOverlay>
       </div>
 
       {/* Mobile / Small Screens: Disabled with Minecraft Command Block Notice */}
