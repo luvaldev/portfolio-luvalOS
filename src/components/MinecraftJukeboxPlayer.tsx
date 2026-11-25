@@ -97,6 +97,12 @@ const MINECRAFT_TRACKS: JukeboxTrack[] = [
   },
 ]
 
+const JUKEBOX_PROMPT_LABELS = [
+  "♪ REPRODÚCEME",
+  "▶ PON MÚSICA",
+  "♫ C418 OST",
+] as const
+
 interface YTPlayerInstance {
   playVideo: () => void
   pauseVideo: () => void
@@ -225,28 +231,20 @@ function PixelVolumeIcon({ muted }: { muted: boolean }) {
   )
 }
 
-function JukeboxBlockVisual({ playing, size }: { playing: boolean; size: number }) {
-  return playing ? (
+function JukeboxBlockVisual({ size }: { size: number }) {
+  return (
     <video
       src="/minecraft/jukebox-spin.webm"
+      poster="/minecraft/jukebox-idle.png"
       autoPlay
       loop
       muted
       playsInline
+      aria-hidden="true"
       width={size}
       height={size}
       className="object-contain pointer-events-none select-none"
       style={{ width: size, height: size }}
-    />
-  ) : (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src="/minecraft/jukebox-idle.png"
-      alt="Bloque Jukebox de Minecraft"
-      width={size}
-      height={size}
-      className="object-contain pointer-events-none select-none"
-      style={{ width: size, height: size, imageRendering: "pixelated" }}
     />
   )
 }
@@ -273,6 +271,7 @@ export default function MinecraftJukeboxPlayer() {
   const [muted, setMuted] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [promptIndex, setPromptIndex] = useState(0)
 
   const playerHostRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<YTPlayerInstance | null>(null)
@@ -545,6 +544,15 @@ export default function MinecraftJukeboxPlayer() {
     return () => clearInterval(timer)
   }, [isPlaying])
 
+  // Cycle idle prompt tag while paused and collapsed
+  useEffect(() => {
+    if (effectiveWorld !== "minecraft" || isPlaying || open) return
+    const timer = window.setInterval(() => {
+      setPromptIndex((prev) => (prev + 1) % JUKEBOX_PROMPT_LABELS.length)
+    }, 3200)
+    return () => window.clearInterval(timer)
+  }, [effectiveWorld, isPlaying, open])
+
   const togglePlay = () => {
     if (!playerRef.current || !isReady) {
       userPausedRef.current = false
@@ -649,7 +657,7 @@ export default function MinecraftJukeboxPlayer() {
                     <span className="mc-music-note mc-note-2" aria-hidden="true">♫</span>
                   </>
                 )}
-                <JukeboxBlockVisual playing={isPlaying} size={78} />
+                <JukeboxBlockVisual size={78} />
               </div>
 
               <div className="min-w-0 flex-1">
@@ -805,7 +813,22 @@ export default function MinecraftJukeboxPlayer() {
       )}
 
       {/* Compact Floating Jukebox Block Launcher (Clean Floating 3D Block, no bulky square box) */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2.5">
+        {!open && !isPlaying && (
+          <button
+            type="button"
+            onClick={togglePlay}
+            aria-label="Reproducir música de Minecraft (C418)"
+            className="mc-jukebox-prompt-tag mc-pixel-font"
+          >
+            <span
+              className="inline-block w-1.5 h-1.5 bg-[#2ee86c] shadow-[0_0_6px_#2ee86c] flex-shrink-0"
+              aria-hidden="true"
+            />
+            <span>{JUKEBOX_PROMPT_LABELS[promptIndex]}</span>
+          </button>
+        )}
+
         {!open && isPlaying && (
           <button
             type="button"
@@ -835,7 +858,7 @@ export default function MinecraftJukeboxPlayer() {
               <span className="mc-music-note mc-note-2" aria-hidden="true">♫</span>
             </>
           )}
-          <JukeboxBlockVisual playing={isPlaying} size={92} />
+          <JukeboxBlockVisual size={92} />
         </button>
       </div>
       </div>

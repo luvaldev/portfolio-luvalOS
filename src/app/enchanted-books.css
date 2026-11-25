@@ -1511,6 +1511,77 @@
   25%  { opacity: 1; }
   100% { transform: translateY(-18px) scale(1.1); opacity: 0; }
 }
+.mc-jukebox-prompt-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.46rem 0.72rem;
+  background: linear-gradient(180deg, #24140e 0%, #140b07 100%);
+  border: 2px solid #6e4026;
+  box-shadow:
+    inset 1px 1px 0 #945938,
+    inset -1px -1px 0 #0b0503,
+    3px 3px 0 rgba(7, 4, 10, 0.85);
+  color: #ffe89e;
+  font-family: var(--font-pixel), var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-shadow:
+    1px 1px 0 #090403,
+    0 0 8px rgba(46, 232, 108, 0.45);
+  cursor: pointer;
+  animation: mc-prompt-bob 2.2s ease-in-out infinite;
+  transition: border-color 0.16s ease, color 0.16s ease, text-shadow 0.16s ease;
+}
+.mc-jukebox-prompt-tag::before,
+.mc-jukebox-prompt-tag::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.mc-jukebox-prompt-tag::before {
+  right: -8px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid #6e4026;
+  transition: border-left-color 0.16s ease;
+}
+.mc-jukebox-prompt-tag::after {
+  right: -5px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid #1b0f0a;
+}
+.mc-jukebox-prompt-tag:hover,
+.mc-jukebox-prompt-tag:focus-visible {
+  border-color: #2ee86c;
+  color: #7dffaa;
+  text-shadow:
+    1px 1px 0 #090403,
+    0 0 10px rgba(46, 232, 108, 0.72);
+  outline: none;
+}
+.mc-jukebox-prompt-tag:hover::before,
+.mc-jukebox-prompt-tag:focus-visible::before {
+  border-left-color: #2ee86c;
+}
+@keyframes mc-prompt-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mc-jukebox-prompt-tag {
+    animation: none;
+  }
+}
 
 .mc-server-player-pill {
   display:inline-flex;
