@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import NormalPortfolioLanding from "@/components/normal/NormalPortfolioLanding"
 import PortfolioLanding from "@/components/PortfolioLanding"
-import BlockFallTransition from "@/components/transition/BlockFallTransition"
+import TntBuildTransition from "@/components/transition/TntBuildTransition"
 
 type PortfolioWorld = "normal" | "minecraft"
 
@@ -90,7 +90,9 @@ export default function DualPortfolioExperience() {
     window.history.replaceState(null, "", nextUrl)
     setWorld(nextWorld)
     dispatchWorldChange(nextWorld)
-    window.scrollTo({ top: 0, behavior: "instant" })
+    if (nextWorld === "normal") {
+      window.scrollTo({ top: 0, behavior: "instant" })
+    }
   }, [transitionState.targetWorld])
 
   const handleTransitionComplete = useCallback(() => {
@@ -108,7 +110,7 @@ export default function DualPortfolioExperience() {
         <PortfolioLanding onReturnNormal={handleReturnNormal} />
       )}
 
-      <BlockFallTransition
+      <TntBuildTransition
         active={transitionState.active}
         targetWorld={transitionState.targetWorld}
         origin={transitionState.origin}
