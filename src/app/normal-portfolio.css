@@ -1,0 +1,396 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   Normal Minimalist Dark-Purple Portfolio Styles
+   Scoped strictly under .np-root so zero styles leak to Minecraft / OS routes.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+.np-root {
+  --np-bg: #070510;
+  --np-bg-elevated: #0d091d;
+  --np-surface: rgba(19, 13, 35, 0.66);
+  --np-surface-strong: rgba(24, 17, 44, 0.86);
+  --np-surface-hover: rgba(31, 21, 56, 0.82);
+  --np-ink: #f4f0ff;
+  --np-ink-secondary: #d7cef0;
+  --np-muted: #9b8ec0;
+  --np-border: rgba(168, 85, 247, 0.22);
+  --np-border-strong: rgba(192, 132, 252, 0.42);
+  --np-accent: #c084fc;
+  --np-accent-bright: #d8b4fe;
+  --np-accent-deep: #7e22ce;
+  --np-accent-ink: #070510;
+  --np-cyan: #2ce5d8;
+  --np-emerald: #34d399;
+  --np-grid-line: rgba(168, 85, 247, 0.085);
+  --np-spot-glow: rgba(168, 85, 247, 0.17);
+  --np-card-shadow: 0 20px 50px -24px rgba(3, 1, 10, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --np-nav-bg: rgba(7, 5, 16, 0.72);
+  --np-manifesto-dim: rgba(186, 173, 224, 0.28);
+  --np-manifesto-lit: #f8f5ff;
+  --np-manifesto-accent-dim: rgba(216, 180, 254, 0.26);
+  --np-manifesto-accent-lit: #d8b4fe;
+
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--np-bg);
+  color: var(--np-ink);
+  font-family: var(--font-inter), var(--font-sans), system-ui, -apple-system, sans-serif;
+  isolation: isolate;
+  overflow-x: clip;
+  transition: background-color 0.35s cubic-bezier(0.23, 1, 0.32, 1), color 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.light .np-root {
+  --np-bg: #f6f3ff;
+  --np-bg-elevated: #eee8ff;
+  --np-surface: rgba(255, 255, 255, 0.78);
+  --np-surface-strong: rgba(255, 255, 255, 0.94);
+  --np-surface-hover: rgba(245, 239, 255, 0.95);
+  --np-ink: #140d26;
+  --np-ink-secondary: #2e224d;
+  --np-muted: #5d4f82;
+  --np-border: rgba(126, 34, 206, 0.16);
+  --np-border-strong: rgba(126, 34, 206, 0.36);
+  --np-accent: #7e22ce;
+  --np-accent-bright: #6b21a8;
+  --np-accent-deep: #581c87;
+  --np-accent-ink: #ffffff;
+  --np-cyan: #0b7a75;
+  --np-emerald: #059669;
+  --np-grid-line: rgba(126, 34, 206, 0.075);
+  --np-spot-glow: rgba(139, 92, 246, 0.14);
+  --np-card-shadow: 0 16px 40px -22px rgba(45, 20, 90, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --np-nav-bg: rgba(246, 243, 255, 0.8);
+  --np-manifesto-dim: rgba(93, 79, 130, 0.28);
+  --np-manifesto-lit: #140d26;
+  --np-manifesto-accent-dim: rgba(126, 34, 206, 0.25);
+  --np-manifesto-accent-lit: #7e22ce;
+}
+
+.np-root ::selection {
+  background: var(--np-accent);
+  color: var(--np-accent-ink);
+}
+
+/* ── Ambient Volumetric Light Pools & Architectural Grid ── */
+.np-ambient-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(62% 48% at 16% 10%, rgba(126, 34, 206, 0.24), transparent 72%),
+    radial-gradient(52% 42% at 86% 18%, rgba(168, 85, 247, 0.18), transparent 70%),
+    radial-gradient(58% 44% at 72% 62%, rgba(91, 33, 182, 0.16), transparent 74%),
+    radial-gradient(54% 46% at 24% 86%, rgba(139, 92, 246, 0.15), transparent 72%),
+    var(--np-bg);
+}
+
+.light .np-ambient-backdrop {
+  background:
+    radial-gradient(60% 45% at 15% 10%, rgba(168, 85, 247, 0.14), transparent 72%),
+    radial-gradient(50% 42% at 85% 20%, rgba(192, 132, 252, 0.16), transparent 70%),
+    radial-gradient(55% 44% at 60% 78%, rgba(139, 92, 246, 0.1), transparent 74%),
+    var(--np-bg);
+}
+
+.np-arch-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--np-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--np-grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 82% 72% at 50% 32%, #000 35%, transparent 95%);
+}
+
+/* ── Navbar ── */
+.np-navbar {
+  background: var(--np-nav-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--np-border);
+}
+
+.np-nav-link {
+  position: relative;
+  color: var(--np-muted);
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.np-nav-link:hover,
+.np-nav-link.is-active {
+  color: var(--np-ink);
+  background: rgba(168, 85, 247, 0.13);
+}
+
+.np-nav-link.is-active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--np-accent), var(--np-cyan));
+}
+
+/* ── Glass Cards & Pointer Spotlight ── */
+.np-card {
+  position: relative;
+  background: var(--np-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--np-border);
+  box-shadow: var(--np-card-shadow);
+  transition: border-color 220ms ease, transform 220ms cubic-bezier(0.23, 1, 0.32, 1), background-color 220ms ease;
+}
+
+.np-card:hover {
+  border-color: var(--np-border-strong);
+}
+
+.np-spotlight-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--np-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--np-border);
+  box-shadow: var(--np-card-shadow);
+  transition: border-color 220ms ease, transform 240ms cubic-bezier(0.23, 1, 0.32, 1), background-color 220ms ease;
+}
+
+.np-spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--np-spot-glow),
+    transparent 65%
+  );
+  transition: opacity 240ms ease;
+}
+
+.np-spotlight-card:hover::before,
+.np-spotlight-card:focus-visible::before {
+  opacity: 1;
+}
+
+.np-spotlight-card:hover {
+  border-color: var(--np-border-strong);
+  transform: translateY(-2px);
+}
+
+/* ── Buttons & Badges ── */
+.np-btn-primary {
+  background: linear-gradient(135deg, #9333ea 0%, #7e22ce 55%, #6d28d9 100%);
+  color: #ffffff;
+  border: 1px solid rgba(216, 180, 254, 0.45);
+  box-shadow: 0 10px 28px -10px rgba(147, 51, 234, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.np-btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 14px 34px -10px rgba(168, 85, 247, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.np-btn-secondary {
+  background: var(--np-surface);
+  backdrop-filter: blur(12px);
+  color: var(--np-ink);
+  border: 1px solid var(--np-border);
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.np-btn-secondary:hover {
+  border-color: var(--np-border-strong);
+  background: var(--np-surface-hover);
+  transform: translateY(-1px);
+}
+
+.np-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--np-border);
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--np-accent-bright);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Scroll-linked Manifesto Typography ── */
+.np-manifesto-char {
+  color: var(--np-manifesto-dim);
+  transition: color 160ms ease, text-shadow 160ms ease;
+}
+
+.np-manifesto-char.is-lit {
+  color: var(--np-manifesto-lit);
+  text-shadow: 0 0 18px rgba(216, 180, 254, 0.18);
+}
+
+.np-manifesto-char.is-accent {
+  color: var(--np-manifesto-accent-dim);
+}
+
+.np-manifesto-char.is-accent.is-lit {
+  color: var(--np-manifesto-accent-lit);
+  text-shadow: 0 0 18px rgba(216, 180, 254, 0.45);
+}
+
+.light .np-manifesto-char.is-lit {
+  text-shadow: none;
+}
+
+.light .np-manifesto-char.is-accent.is-lit {
+  text-shadow: 0 0 14px rgba(126, 34, 206, 0.16);
+}
+
+/* ── Modals ── */
+.np-modal-backdrop {
+  background: rgba(5, 3, 12, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.np-modal-surface {
+  background: linear-gradient(180deg, rgba(20, 14, 38, 0.96) 0%, rgba(12, 8, 24, 0.98) 100%);
+  border: 1px solid var(--np-border-strong);
+  box-shadow: 0 32px 80px -20px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(216, 180, 254, 0.08);
+  color: #f4f0ff;
+}
+
+.light .np-modal-surface {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(246, 242, 255, 0.98) 100%);
+  color: #140d26;
+}
+
+/* ── Mysterious Command Block Portal Button ── */
+.np-portal-trigger {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(22, 13, 44, 0.9) 0%, rgba(13, 8, 28, 0.94) 55%, rgba(28, 14, 52, 0.9) 100%);
+  border: 1px solid rgba(192, 132, 252, 0.36);
+  box-shadow:
+    0 18px 48px -18px rgba(147, 51, 234, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: #f4f0ff;
+  transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1), border-color 240ms ease, box-shadow 240ms ease;
+}
+
+.light .np-portal-trigger {
+  background: linear-gradient(135deg, #1b1035 0%, #110924 55%, #231247 100%);
+  border-color: rgba(147, 51, 234, 0.5);
+  color: #f8f5ff;
+}
+
+.np-portal-trigger:hover {
+  transform: translateY(-3px);
+  border-color: rgba(216, 180, 254, 0.72);
+  box-shadow:
+    0 24px 64px -16px rgba(168, 85, 247, 0.75),
+    0 0 28px rgba(59, 232, 232, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.np-portal-leds {
+  display: grid;
+  grid-template-columns: repeat(2, 7px);
+  gap: 4px;
+}
+
+.np-portal-leds i {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  animation: np-led-pulse 2.2s ease-in-out infinite;
+}
+
+.np-portal-leds i:nth-child(1) {
+  background: #3be8e8;
+  box-shadow: 0 0 8px #3be8e8;
+  animation-delay: 0s;
+}
+
+.np-portal-leds i:nth-child(2) {
+  background: #ff66cc;
+  box-shadow: 0 0 8px #ff66cc;
+  animation-delay: 0.35s;
+}
+
+.np-portal-leds i:nth-child(3) {
+  background: #ffcf4d;
+  box-shadow: 0 0 8px #ffcf4d;
+  animation-delay: 0.7s;
+}
+
+.np-portal-leds i:nth-child(4) {
+  background: #ff7755;
+  box-shadow: 0 0 8px #ff7755;
+  animation-delay: 1.05s;
+}
+
+.np-portal-spark {
+  position: absolute;
+  border-radius: 999px;
+  background: radial-gradient(circle, #e9d5ff 0%, #a855f7 65%, transparent 100%);
+  pointer-events: none;
+  opacity: 0.45;
+  animation: np-spark-float 3.8s ease-in-out infinite;
+}
+
+@keyframes np-led-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes np-spark-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.85);
+    opacity: 0.28;
+  }
+  50% {
+    transform: translateY(-7px) scale(1.2);
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .np-root,
+  .np-card,
+  .np-spotlight-card,
+  .np-spotlight-card::before,
+  .np-btn-primary,
+  .np-btn-secondary,
+  .np-manifesto-char,
+  .np-portal-trigger {
+    transition: none !important;
+  }
+
+  .np-portal-leds i,
+  .np-portal-spark {
+    animation: none !important;
+  }
+}
