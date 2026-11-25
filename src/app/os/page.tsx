@@ -32,7 +32,7 @@ export default function OSPage() {
             El entorno interactivo con ventanas, teclado arcade y Minecraft Web requiere pantalla de computador para jugar y desplazarse correctamente.
           </p>
           <Link
-            href="/"
+            href="/?world=minecraft"
             className="mc-btn-primary inline-flex items-center justify-center gap-2 px-5 py-3 text-xs mc-pixel-font font-bold w-full"
           >
             <span>← VOLVER AL PORTAFOLIO</span>

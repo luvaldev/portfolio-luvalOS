@@ -218,7 +218,7 @@ export default function BottomDock({ className = "" }: { className?: string }) {
 
         {/* Return to Portfolio Shortcut */}
         <Link
-          href="/"
+          href="/?world=minecraft"
           className="flex items-center justify-center px-3 h-[50px] mb-1 bg-[#1b5e2e] border-2 border-[#2ee86c] text-white mc-pixel-font text-[10px] font-bold hover:brightness-110 transition-all"
           title="Volver al Portafolio Principal"
         >

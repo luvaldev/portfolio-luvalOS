@@ -137,7 +137,7 @@ export default function TopBar() {
       {/* Right: Return to Portfolio, Window Counter, Status Pill & Clock */}
       <div className="flex items-center gap-2">
         <Link
-          href="/"
+          href="/?world=minecraft"
           className="px-3 py-1 bg-[#1b6131] border-2 border-[#2ee86c] text-[#ffffff] mc-pixel-font text-[10px] font-bold hover:brightness-110 transition-all"
         >
           ← VOLVER AL PORTAFOLIO
