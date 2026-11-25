@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Inter, Silkscreen } from "next/font/google";
 import "./globals.css";
 import "./enchanted-books.css";
+import "./normal-portfolio.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import MinecraftJukeboxPlayer from "@/components/MinecraftJukeboxPlayer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -45,6 +47,7 @@ export default function RootLayout({
       <body className="min-h-full font-sans selection:bg-[#d4ff33] selection:text-[#090a0c]">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
+          <MinecraftJukeboxPlayer />
         </ThemeProvider>
       </body>
     </html>

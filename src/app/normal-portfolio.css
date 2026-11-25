@@ -4,30 +4,34 @@
    ────────────────────────────────────────────────────────────────────────────── */
 
 .np-root {
-  --np-bg: #070510;
-  --np-bg-elevated: #0d091d;
-  --np-surface: rgba(19, 13, 35, 0.66);
-  --np-surface-strong: rgba(24, 17, 44, 0.86);
-  --np-surface-hover: rgba(31, 21, 56, 0.82);
-  --np-ink: #f4f0ff;
-  --np-ink-secondary: #d7cef0;
-  --np-muted: #9b8ec0;
-  --np-border: rgba(168, 85, 247, 0.22);
-  --np-border-strong: rgba(192, 132, 252, 0.42);
-  --np-accent: #c084fc;
-  --np-accent-bright: #d8b4fe;
-  --np-accent-deep: #7e22ce;
-  --np-accent-ink: #070510;
-  --np-cyan: #2ce5d8;
+  --np-bg: #09090b;
+  --np-bg-elevated: #111114;
+  --np-surface: rgba(18, 18, 22, 0.78);
+  --np-surface-strong: rgba(22, 22, 27, 0.94);
+  --np-surface-hover: rgba(28, 28, 35, 0.88);
+  --np-item-bg: rgba(255, 255, 255, 0.03);
+  --np-ink: #fafafa;
+  --np-ink-secondary: #d4d4d8;
+  --np-muted: #9898a6;
+  --np-border: rgba(255, 255, 255, 0.09);
+  --np-border-strong: rgba(255, 255, 255, 0.22);
+  --np-accent: #10b981;
+  --np-accent-bright: #34d399;
+  --np-accent-deep: #059669;
+  --np-accent-ink: #04130d;
+  --np-cyan: #22d3ee;
   --np-emerald: #34d399;
-  --np-grid-line: rgba(168, 85, 247, 0.085);
-  --np-spot-glow: rgba(168, 85, 247, 0.17);
-  --np-card-shadow: 0 20px 50px -24px rgba(3, 1, 10, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --np-nav-bg: rgba(7, 5, 16, 0.72);
-  --np-manifesto-dim: rgba(186, 173, 224, 0.28);
-  --np-manifesto-lit: #f8f5ff;
-  --np-manifesto-accent-dim: rgba(216, 180, 254, 0.26);
-  --np-manifesto-accent-lit: #d8b4fe;
+  --np-violet: #c084fc;
+  --np-grid-line: rgba(255, 255, 255, 0.035);
+  --np-spot-glow: rgba(16, 185, 129, 0.12);
+  --np-card-shadow: 0 20px 50px -28px rgba(0, 0, 0, 0.92), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --np-nav-bg: rgba(9, 9, 11, 0.76);
+  --np-manifesto-dim: rgba(161, 161, 170, 0.3);
+  --np-manifesto-lit: #fafafa;
+  --np-manifesto-accent-dim: rgba(52, 211, 153, 0.24);
+  --np-manifesto-accent-lit: #34d399;
+  --font-display: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   position: relative;
   min-height: 100vh;
@@ -39,31 +43,46 @@
   transition: background-color 0.35s cubic-bezier(0.23, 1, 0.32, 1), color 0.35s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.np-root h1,
+.np-root h2,
+.np-root h3,
+.np-root h4,
+.np-root .font-display {
+  font-family: var(--font-inter), var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
+.np-root .font-mono,
+.np-root code {
+  font-family: var(--font-mono);
+}
+
 .light .np-root {
-  --np-bg: #f6f3ff;
-  --np-bg-elevated: #eee8ff;
-  --np-surface: rgba(255, 255, 255, 0.78);
-  --np-surface-strong: rgba(255, 255, 255, 0.94);
-  --np-surface-hover: rgba(245, 239, 255, 0.95);
-  --np-ink: #140d26;
-  --np-ink-secondary: #2e224d;
-  --np-muted: #5d4f82;
-  --np-border: rgba(126, 34, 206, 0.16);
-  --np-border-strong: rgba(126, 34, 206, 0.36);
-  --np-accent: #7e22ce;
-  --np-accent-bright: #6b21a8;
-  --np-accent-deep: #581c87;
+  --np-bg: #f5f4f0;
+  --np-bg-elevated: #eceae3;
+  --np-surface: rgba(255, 255, 255, 0.86);
+  --np-surface-strong: rgba(255, 255, 255, 0.96);
+  --np-surface-hover: #ffffff;
+  --np-item-bg: rgba(24, 24, 27, 0.035);
+  --np-ink: #111114;
+  --np-ink-secondary: #3f3f46;
+  --np-muted: #63636e;
+  --np-border: rgba(24, 24, 27, 0.11);
+  --np-border-strong: rgba(24, 24, 27, 0.26);
+  --np-accent: #059669;
+  --np-accent-bright: #047857;
+  --np-accent-deep: #065f46;
   --np-accent-ink: #ffffff;
-  --np-cyan: #0b7a75;
-  --np-emerald: #059669;
-  --np-grid-line: rgba(126, 34, 206, 0.075);
-  --np-spot-glow: rgba(139, 92, 246, 0.14);
-  --np-card-shadow: 0 16px 40px -22px rgba(45, 20, 90, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  --np-nav-bg: rgba(246, 243, 255, 0.8);
-  --np-manifesto-dim: rgba(93, 79, 130, 0.28);
-  --np-manifesto-lit: #140d26;
-  --np-manifesto-accent-dim: rgba(126, 34, 206, 0.25);
-  --np-manifesto-accent-lit: #7e22ce;
+  --np-cyan: #0e7490;
+  --np-emerald: #047857;
+  --np-violet: #7e22ce;
+  --np-grid-line: rgba(24, 24, 27, 0.05);
+  --np-spot-glow: rgba(5, 150, 105, 0.09);
+  --np-card-shadow: 0 14px 36px -22px rgba(24, 24, 27, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --np-nav-bg: rgba(245, 244, 240, 0.84);
+  --np-manifesto-dim: rgba(82, 82, 91, 0.28);
+  --np-manifesto-lit: #111114;
+  --np-manifesto-accent-dim: rgba(5, 150, 105, 0.24);
+  --np-manifesto-accent-lit: #059669;
 }
 
 .np-root ::selection {
@@ -71,39 +90,123 @@
   color: var(--np-accent-ink);
 }
 
-/* ── Ambient Volumetric Light Pools & Architectural Grid ── */
+/* ── Seamless Connected Canvas (Single Unified Base + Softly Overlapping Atmospheric Layers) ── */
 .np-ambient-backdrop {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
-  overflow: hidden;
-  background:
-    radial-gradient(62% 48% at 16% 10%, rgba(126, 34, 206, 0.24), transparent 72%),
-    radial-gradient(52% 42% at 86% 18%, rgba(168, 85, 247, 0.18), transparent 70%),
-    radial-gradient(58% 44% at 72% 62%, rgba(91, 33, 182, 0.16), transparent 74%),
-    radial-gradient(54% 46% at 24% 86%, rgba(139, 92, 246, 0.15), transparent 72%),
-    var(--np-bg);
-}
-
-.light .np-ambient-backdrop {
-  background:
-    radial-gradient(60% 45% at 15% 10%, rgba(168, 85, 247, 0.14), transparent 72%),
-    radial-gradient(50% 42% at 85% 20%, rgba(192, 132, 252, 0.16), transparent 70%),
-    radial-gradient(55% 44% at 60% 78%, rgba(139, 92, 246, 0.1), transparent 74%),
-    var(--np-bg);
+  background: var(--np-bg);
 }
 
 .np-arch-grid {
-  position: fixed;
+  display: none;
+}
+
+.np-sec {
+  position: relative;
+  background: transparent;
+}
+
+.np-sec::before,
+.np-sec::after {
+  content: "";
+  position: absolute;
   inset: 0;
-  z-index: -1;
   pointer-events: none;
+  z-index: -1;
+}
+
+/* Every ambient light layer fades strictly to 0% at top & bottom edges -> ZERO horizontal seam lines */
+.np-sec::before {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 74%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 74%, transparent 100%);
+}
+
+/* Zona Alta: Manifiesto continúa suavemente desde el Hero sin corte */
+.np-sec-manifiesto::before {
+  background:
+    radial-gradient(46% 42% at 16% 52%, rgba(16, 185, 129, 0.085), transparent 70%),
+    radial-gradient(42% 40% at 86% 58%, rgba(168, 85, 247, 0.075), transparent 70%);
+}
+.np-sec-manifiesto::after {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 32%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 32%, #000 70%, transparent 100%);
+  opacity: 0.3;
+}
+
+/* Zona Media (Actividades -> Proyectos -> Stack): grilla continua sin cortes */
+.np-sec-actividades::before {
+  background:
+    radial-gradient(48% 44% at 82% 48%, rgba(16, 185, 129, 0.095), transparent 68%),
+    radial-gradient(42% 42% at 18% 58%, rgba(34, 211, 238, 0.065), transparent 70%);
+}
+.np-sec-actividades::after {
   background-image:
-    linear-gradient(to right, var(--np-grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--np-grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 82% 72% at 50% 32%, #000 35%, transparent 95%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 100%);
+}
+
+.np-sec-proyectos::before {
+  background:
+    radial-gradient(50% 42% at 50% 45%, rgba(168, 85, 247, 0.085), transparent 70%),
+    radial-gradient(40% 40% at 14% 55%, rgba(16, 185, 129, 0.065), transparent 68%);
+}
+.np-sec-proyectos::after {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.np-sec-stack::before {
+  background:
+    radial-gradient(48% 42% at 78% 48%, rgba(34, 211, 238, 0.075), transparent 70%),
+    radial-gradient(44% 44% at 20% 56%, rgba(168, 85, 247, 0.08), transparent 70%);
+}
+.np-sec-stack::after {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
+}
+
+/* Zona Baja (Trayectoria -> Contacto): esmeralda + violeta suave hacia la consola */
+.np-sec-trayectoria::before {
+  background:
+    radial-gradient(46% 42% at 80% 48%, rgba(16, 185, 129, 0.08), transparent 70%),
+    radial-gradient(46% 44% at 18% 56%, rgba(168, 85, 247, 0.085), transparent 70%);
+}
+.np-sec-trayectoria::after {
+  background: none;
+}
+
+.np-sec-contacto::before {
+  background:
+    radial-gradient(50% 48% at 50% 52%, rgba(16, 185, 129, 0.09), transparent 68%),
+    radial-gradient(46% 44% at 50% 46%, rgba(168, 85, 247, 0.095), transparent 70%);
+}
+.np-sec-contacto::after {
+  background-image: radial-gradient(rgba(52, 211, 153, 0.16) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 62% 54% at 50% 52%, #000 10%, transparent 76%);
+  mask-image: radial-gradient(ellipse 62% 54% at 50% 52%, #000 10%, transparent 76%);
+  opacity: 0.35;
+}
+
+.light .np-sec-actividades::after,
+.light .np-sec-proyectos::after,
+.light .np-sec-stack::after {
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
 }
 
 /* ── Navbar ── */
@@ -123,7 +226,12 @@
 .np-nav-link:hover,
 .np-nav-link.is-active {
   color: var(--np-ink);
-  background: rgba(168, 85, 247, 0.13);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.light .np-nav-link:hover,
+.light .np-nav-link.is-active {
+  background: rgba(24, 24, 27, 0.06);
 }
 
 .np-nav-link.is-active::after {
@@ -134,7 +242,7 @@
   bottom: 2px;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--np-accent), var(--np-cyan));
+  background: linear-gradient(90deg, var(--np-accent), var(--np-violet));
 }
 
 /* ── Glass Cards & Pointer Spotlight ── */
@@ -187,19 +295,30 @@
   transform: translateY(-2px);
 }
 
-/* ── Buttons & Badges ── */
+/* ── Buttons & Badges (Editorial Monochrome + Mineral Accent, anti-AI-slop) ── */
 .np-btn-primary {
-  background: linear-gradient(135deg, #9333ea 0%, #7e22ce 55%, #6d28d9 100%);
-  color: #ffffff;
-  border: 1px solid rgba(216, 180, 254, 0.45);
-  box-shadow: 0 10px 28px -10px rgba(147, 51, 234, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  background: #fafafa;
+  color: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.6);
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 }
 
 .np-btn-primary:hover {
   transform: translateY(-1px);
-  filter: brightness(1.08);
-  box-shadow: 0 14px 34px -10px rgba(168, 85, 247, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: #ffffff;
+  box-shadow: 0 12px 28px -10px rgba(245, 158, 11, 0.28);
+}
+
+.light .np-btn-primary {
+  background: #111114;
+  color: #fafafa;
+  border-color: #111114;
+  box-shadow: 0 8px 20px -10px rgba(17, 17, 20, 0.35);
+}
+
+.light .np-btn-primary:hover {
+  background: #27272a;
 }
 
 .np-btn-secondary {
@@ -220,11 +339,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
+  padding: 0.3rem 0.72rem;
+  border-radius: 6px;
   border: 1px solid var(--np-border);
-  background: rgba(168, 85, 247, 0.1);
-  color: var(--np-accent-bright);
+  background: var(--np-item-bg);
+  color: var(--np-muted);
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
   letter-spacing: 0.12em;

@@ -3,7 +3,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 import {
-  Activity,
   Bot,
   Check,
   Code2,
@@ -17,14 +16,12 @@ import {
   Layers,
   Lock,
   Mail,
-  MapPin,
   Menu,
   Moon,
   Server,
   Shield,
   Sparkles,
   Sun,
-  Terminal,
   Trophy,
   User,
   Users,
@@ -32,7 +29,8 @@ import {
   X,
 } from "lucide-react"
 import ArrowUpRight from "@/components/icons/ArrowUpRight"
-import { PixelCommandBlockIcon } from "@/components/icons/PixelIcons"
+import { ChromeArcs } from "@/components/ui/chrome-arcs"
+import AmbientVoxelDust from "@/components/normal/AmbientVoxelDust"
 import {
   ALL_PROJECTS,
   CATEGORY_LABELS,
@@ -58,56 +56,6 @@ import {
   renderNormalTechIcon,
 } from "@/components/normal/NormalPortfolioModals"
 import "@/app/normal-portfolio.css"
-
-const WORKSTATION_PROFILES = [
-  {
-    id: "forensics",
-    tab: "ETI Forensics",
-    node: "luval@station // sec-node",
-    status: "ONLINE · 98.40% RECALL",
-    summary: "Motor heurístico Email Trust Index offline < 5 ms sobre 21.183 correos reales.",
-    telemetry: [
-      { label: "Dataset IMAP", value: "21.183 headers" },
-      { label: "False Positive", value: "0,81% FPR" },
-      { label: "Baselines", value: "62 OrgSignature" },
-      { label: "Latencia ETI", value: "< 5 ms SQLite" },
-    ],
-  },
-  {
-    id: "systems",
-    tab: "Next.js & SaaS",
-    node: "luval@station // app-router",
-    status: "DEPLOYED · PRODUCTION",
-    summary: "Plataformas web Full-Stack en Next.js 16, React 19, Prisma ORM y PostgreSQL.",
-    telemetry: [
-      { label: "Runtime", value: "Next.js 16 + TS" },
-      { label: "Persistencia", value: "PostgreSQL / Prisma" },
-      { label: "Pagos / Auth", value: "Webpay · OAuth2" },
-      { label: "Motion", value: "GSAP · Framer" },
-    ],
-  },
-  {
-    id: "embedded",
-    tab: "ESP32 & C++",
-    node: "luval@station // iot-bus",
-    status: "ACTIVE · < 15 MS TOF",
-    summary: "Concurrencia POSIX en C++17, captura Scapy y telemetría BLE para microcontroladores.",
-    telemetry: [
-      { label: "Microcontrolador", value: "ESP32-CAM" },
-      { label: "Sensado", value: "ToF < 1,5 m / 2 m" },
-      { label: "Concurrencia", value: "POSIX · std::mutex" },
-      { label: "Paquetes", value: "Scapy · Wireshark" },
-    ],
-  },
-] as const
-
-const PORTAL_SPARKS = [
-  { top: "16%", left: "12%", size: 4, delay: "0s" },
-  { top: "74%", left: "19%", size: 3, delay: "0.7s" },
-  { top: "22%", left: "78%", size: 5, delay: "1.1s" },
-  { top: "70%", left: "86%", size: 3, delay: "1.8s" },
-  { top: "48%", left: "92%", size: 4, delay: "0.4s" },
-]
 
 const CATEGORY_FILTER_OPTIONS: Array<{ value: "all" | RepositoryItem["category"]; label: string }> = [
   { value: "all", label: "Todas" },
@@ -234,14 +182,12 @@ export default function NormalPortfolioLanding({
 }: {
   onActivateMinecraft: (origin?: { x: number; y: number }) => void
 }) {
-  const { theme, setTheme } = useTheme()
+  const { theme, resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const isLight = mounted && resolvedTheme === "light"
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("hero")
   const [copiedEmail, setCopiedEmail] = useState(false)
-
-  // Hero workstation telemetry tab
-  const [activeWorkstationTab, setActiveWorkstationTab] = useState(0)
 
   // Project filters & modals
   const [yearFilter, setYearFilter] = useState<"all" | number>("all")
@@ -343,30 +289,22 @@ export default function NormalPortfolioLanding({
     setSelectedProject(ALL_PROJECTS[nextIdx])
   }
 
-  const activeWorkstation = WORKSTATION_PROFILES[activeWorkstationTab]
-
   return (
     <div className="np-root selection:bg-[var(--np-accent)] selection:text-[var(--np-accent-ink)]">
-      {/* Ambient Obsidian-Violet Pools & Subtle Architectural Grid */}
+      {/* Continuous Base + Live Subtle Mineral/Network Particle Field */}
       <div className="np-ambient-backdrop" aria-hidden="true" />
-      <div className="np-arch-grid" aria-hidden="true" />
+      <AmbientVoxelDust />
 
       {/* ── Sticky Glass Navbar ── */}
       <header className="np-navbar fixed top-0 inset-x-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[68px] flex items-center justify-between gap-3">
-          <a href="#hero" className="flex items-center gap-3 group focus-visible:outline-none">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500/30 to-violet-900/60 border border-purple-400/40 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.3)]">
-              <Terminal size={17} className="text-[var(--np-accent-bright)]" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-tight text-[var(--np-ink)] leading-none">
-                Luis Valdenegro
-              </span>
-              <span className="font-mono text-[11px] text-[var(--np-muted)] flex items-center gap-1.5 mt-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--np-emerald)] shadow-[0_0_8px_#34d399]" />
-                @luvaldev · Santiago, CL
-              </span>
-            </div>
+          <a href="#hero" className="flex flex-col group focus-visible:outline-none">
+            <span className="text-sm font-bold tracking-tight text-[var(--np-ink)] leading-none">
+              Luis Valdenegro
+            </span>
+            <span className="font-mono text-[11px] text-[var(--np-muted)] mt-1">
+              @luvaldev · Santiago, CL
+            </span>
           </a>
 
           <nav className="hidden xl:flex items-center gap-1 text-xs font-medium" aria-label="Navegación principal">
@@ -487,32 +425,60 @@ export default function NormalPortfolioLanding({
 
       {/* ── MAIN CONTENT ── */}
       <main className="relative z-10 pt-[68px]">
-        {/* ── SECTION 0: HERO ── */}
-        <section id="hero" className="relative py-16 sm:py-24 lg:py-28 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-10 lg:gap-12 items-center">
-              {/* Left Copy */}
-              <div className="space-y-6">
-                <div className="np-section-eyebrow">
-                  <Sparkles size={13} />
-                  <span>Ingeniería Civil en Informática y Telecomunicaciones · UDP</span>
-                </div>
-
-                <h1 className="text-3xl sm:text-5xl xl:text-[3.35rem] font-extrabold tracking-tight leading-[1.08]">
+        {/* ── SECTION 0: HERO (Chrome Arcs Metallic Shader · Adapts to Light Pearl & Dark Obsidian) ── */}
+        <section id="hero" className={`relative overflow-hidden ${isLight ? "text-[#111114]" : "text-[#fafafa]"}`}>
+          <ChromeArcs
+            className="min-h-[34rem] w-full"
+            tint={isLight ? ["#059669", "#7e22ce"] : ["#34d399", "#a855f7"]}
+            speed={0.85}
+            rings={1.05}
+            intensity={isLight ? 0.95 : 1.05}
+            light={isLight}
+            interactive
+          >
+            {/* Long seamless bottom blend into var(--np-bg) — zero hard edge in both themes */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-[1]"
+              style={{
+                background: isLight
+                  ? "radial-gradient(ellipse 74% 72% at 24% 44%, rgba(245, 244, 240, 0.72), rgba(245, 244, 240, 0.16) 65%, transparent 100%), linear-gradient(to bottom, transparent 0%, transparent 45%, rgba(245, 244, 240, 0.55) 74%, var(--np-bg) 100%)"
+                  : "radial-gradient(ellipse 74% 72% at 24% 44%, rgba(9, 9, 11, 0.72), rgba(9, 9, 11, 0.18) 65%, transparent 100%), linear-gradient(to bottom, transparent 0%, transparent 38%, rgba(9, 9, 11, 0.45) 68%, var(--np-bg) 100%)",
+              }}
+            />
+            <div className="relative z-10 w-full max-w-7xl mx-auto py-16 sm:py-24 lg:py-28 px-4 sm:px-6">
+              <div className="max-w-3xl">
+                {/* Editorial Hero Copy */}
+                <div className="space-y-6">
+                <h1 className={`text-3xl sm:text-5xl xl:text-[3.35rem] font-extrabold tracking-tight leading-[1.08] ${isLight ? "text-[#111114]" : "text-[#fafafa]"}`}>
                   <span className="block">INGENIERÍA DE REDES,</span>
-                  <span className="block bg-gradient-to-r from-[#d8b4fe] via-[#a855f7] to-[#2ce5d8] bg-clip-text text-transparent">
-                    SISTEMAS DISTRIBUIDOS
+                  <span className="block">
+                    <span
+                      className={`inline-block bg-clip-text text-transparent ${
+                        isLight
+                          ? "bg-gradient-to-r from-[#047857] via-[#059669] to-[#7e22ce]"
+                          : "bg-gradient-to-r from-[#d1fae5] via-[#34d399] to-[#a855f7]"
+                      }`}
+                    >
+                      SISTEMAS DISTRIBUIDOS
+                    </span>
                   </span>
                   <span className="block">&amp; SOFTWARE DE ALTA FIDELIDAD.</span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-[var(--np-ink-secondary)] leading-relaxed max-w-2xl">
-                  Soy <strong className="font-semibold text-[var(--np-ink)]">Luis Valdenegro</strong> (
-                  <code className="font-mono text-sm px-1.5 py-0.5 rounded-md bg-purple-500/15 border border-purple-400/25 text-[var(--np-accent-bright)]">
+                <p className={`text-base sm:text-lg leading-relaxed max-w-2xl ${isLight ? "text-[#3f3f46]" : "text-[#d4d4d8]"}`}>
+                  Soy <strong className={`font-semibold ${isLight ? "text-[#111114]" : "text-white"}`}>Luis Valdenegro</strong> (
+                  <code
+                    className={`font-mono text-sm px-1.5 py-0.5 rounded-md border ${
+                      isLight
+                        ? "bg-emerald-600/10 border-emerald-700/20 text-[#047857]"
+                        : "bg-white/10 border-white/15 text-[#6ee7b7]"
+                    }`}
+                  >
                     @luvaldev
                   </code>
                   ), estudiante de{" "}
-                  <strong className="font-semibold text-[var(--np-ink)]">
+                  <strong className={`font-semibold ${isLight ? "text-[#111114]" : "text-white"}`}>
                     Ingeniería Civil en Informática y Telecomunicaciones
                   </strong>{" "}
                   en la Universidad Diego Portales. Investigo en ciberseguridad defensiva, firmware embebido en C++,
@@ -522,7 +488,11 @@ export default function NormalPortfolioLanding({
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <a
                     href="#proyectos"
-                    className="np-btn-primary inline-flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold"
+                    className={`inline-flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold transition-all ${
+                      isLight
+                        ? "bg-[#111114] text-[#fafafa] hover:bg-[#27272a] shadow-[0_10px_24px_-10px_rgba(17,17,20,0.4)]"
+                        : "bg-[#fafafa] text-[#09090b] hover:bg-white shadow-[0_10px_28px_-10px_rgba(0,0,0,0.7)]"
+                    }`}
                   >
                     <FolderGit2 size={17} />
                     <span>Explorar Proyectos</span>
@@ -532,12 +502,16 @@ export default function NormalPortfolioLanding({
                   <button
                     type="button"
                     onClick={copyEmail}
-                    className="np-btn-secondary inline-flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs sm:text-sm font-mono"
+                    className={`inline-flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs sm:text-sm font-mono backdrop-blur-md transition-all cursor-pointer border ${
+                      isLight
+                        ? "bg-white/80 hover:bg-white border-zinc-900/15 text-[#111114]"
+                        : "bg-white/10 hover:bg-white/15 border-white/15 text-[#fafafa]"
+                    }`}
                   >
                     {copiedEmail ? (
-                      <Check size={16} className="text-[var(--np-emerald)]" />
+                      <Check size={16} className={isLight ? "text-[#059669]" : "text-[#34d399]"} />
                     ) : (
-                      <Copy size={16} className="text-[var(--np-accent-bright)]" />
+                      <Copy size={16} className={isLight ? "text-[#059669]" : "text-[#34d399]"} />
                     )}
                     <span>{copiedEmail ? "¡Correo copiado!" : "luvalprojects@gmail.com"}</span>
                   </button>
@@ -545,144 +519,66 @@ export default function NormalPortfolioLanding({
 
                 {/* Social Links */}
                 <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--np-muted)] mr-1">
+                  <span className={`font-mono text-[11px] uppercase tracking-wider mr-1 ${isLight ? "text-[#63636e]" : "text-[#a1a1aa]"}`}>
                     Redes &amp; Contacto
                   </span>
-                  <a
-                    href="https://github.com/luvaldev"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub de Luis Valdenegro"
-                    title="GitHub (@luvaldev)"
-                    className="np-btn-secondary w-10 h-10 rounded-xl flex items-center justify-center text-[var(--np-ink)]"
-                  >
-                    <VectorGithubIcon size={18} />
-                  </a>
-                  <a
-                    href="https://cl.linkedin.com/in/luis-valdenegrom"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="LinkedIn de Luis Valdenegro"
-                    title="LinkedIn"
-                    className="np-btn-secondary w-10 h-10 rounded-xl flex items-center justify-center text-[var(--np-ink)]"
-                  >
-                    <VectorLinkedinIcon size={18} />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/lwchito/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Instagram de Luis Valdenegro"
-                    title="Instagram (@lwchito)"
-                    className="np-btn-secondary w-10 h-10 rounded-xl flex items-center justify-center text-[var(--np-ink)]"
-                  >
-                    <VectorInstagramIcon size={18} />
-                  </a>
-                  <a
-                    href="mailto:luvalprojects@gmail.com"
-                    aria-label="Enviar correo directo"
-                    title="Enviar correo (luvalprojects@gmail.com)"
-                    className="np-btn-secondary w-10 h-10 rounded-xl flex items-center justify-center text-[var(--np-ink)]"
-                  >
-                    <Mail size={18} />
-                  </a>
-                </div>
-              </div>
-
-              {/* Right Column: Sleek Purple Engineering Workstation Telemetry Card */}
-              <div
-                className="np-spotlight-card rounded-3xl p-6 sm:p-7 space-y-5"
-                onPointerMove={handleCardPointerMove}
-              >
-                <div className="flex items-center justify-between gap-3 border-b border-[var(--np-border)] pb-4">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--np-emerald)] shadow-[0_0_10px_#34d399]" />
-                    <span className="font-mono text-xs text-[var(--np-ink-secondary)] truncate">
-                      {activeWorkstation.node}
-                    </span>
-                  </div>
-                  <span className="font-mono text-[10px] px-2.5 py-1 rounded-full bg-purple-500/15 border border-purple-400/30 text-[var(--np-accent-bright)] shrink-0">
-                    {activeWorkstation.status}
-                  </span>
-                </div>
-
-                {/* Workstation Mode Switcher */}
-                <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Módulos de ingeniería">
-                  {WORKSTATION_PROFILES.map((profile, idx) => (
-                    <button
-                      key={profile.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={activeWorkstationTab === idx}
-                      onClick={() => setActiveWorkstationTab(idx)}
-                      className={`px-3 py-1.5 rounded-xl font-mono text-xs transition-all ${
-                        activeWorkstationTab === idx
-                          ? "bg-purple-500/25 border border-purple-400/50 text-[var(--np-ink)]"
-                          : "bg-transparent border border-transparent text-[var(--np-muted)] hover:text-[var(--np-ink)] hover:bg-purple-500/10"
+                  {[
+                    { href: "https://github.com/luvaldev", label: "GitHub de Luis Valdenegro", title: "GitHub (@luvaldev)", icon: <VectorGithubIcon size={18} />, external: true },
+                    { href: "https://cl.linkedin.com/in/luis-valdenegrom", label: "LinkedIn de Luis Valdenegro", title: "LinkedIn", icon: <VectorLinkedinIcon size={18} />, external: true },
+                    { href: "https://www.instagram.com/lwchito/", label: "Instagram de Luis Valdenegro", title: "Instagram (@lwchito)", icon: <VectorInstagramIcon size={18} />, external: true },
+                    { href: "mailto:luvalprojects@gmail.com", label: "Enviar correo directo", title: "Enviar correo (luvalprojects@gmail.com)", icon: <Mail size={18} />, external: false },
+                  ].map((item) => (
+                    <a
+                      key={item.title}
+                      href={item.href}
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noreferrer" : undefined}
+                      aria-label={item.label}
+                      title={item.title}
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all ${
+                        isLight
+                          ? "bg-white/80 hover:bg-white border-zinc-900/15 text-[#111114]"
+                          : "bg-white/10 hover:bg-white/20 border-white/15 text-white"
                       }`}
                     >
-                      {profile.tab}
-                    </button>
+                      {item.icon}
+                    </a>
                   ))}
-                </div>
-
-                <p className="text-sm text-[var(--np-ink-secondary)] leading-relaxed">
-                  {activeWorkstation.summary}
-                </p>
-
-                <div className="grid grid-cols-2 gap-3">
-                  {activeWorkstation.telemetry.map((item) => (
-                    <div
-                      key={item.label}
-                      className="p-3.5 rounded-2xl bg-purple-950/20 border border-[var(--np-border)]"
-                    >
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--np-muted)] block mb-1">
-                        {item.label}
-                      </span>
-                      <span className="font-mono text-xs sm:text-sm font-semibold text-[var(--np-ink)]">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-2 border-t border-[var(--np-border)] flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[var(--np-muted)]">
-                  <span className="inline-flex items-center gap-1.5">
-                    <MapPin size={13} className="text-[var(--np-accent-bright)]" />
-                    Santiago, Chile · UTC-3
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 text-[var(--np-cyan)]">
-                    <Activity size={13} />
-                    Disponible para proyectos
-                  </span>
                 </div>
               </div>
-            </div>
+              </div>
 
-            {/* 4 Hero Metrics Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+            {/* Unified Architectural Metrics Strip */}
+            <div
+              className={`grid grid-cols-2 lg:grid-cols-4 mt-14 rounded-2xl border backdrop-blur-md divide-y lg:divide-y-0 lg:divide-x overflow-hidden ${
+                isLight
+                  ? "border-zinc-900/12 bg-white/82 divide-zinc-900/10 shadow-[0_14px_34px_-22px_rgba(24,24,27,0.18)]"
+                  : "border-white/12 bg-[#0c0c10]/80 divide-white/10"
+              }`}
+            >
               {HERO_METRICS.map((stat) => (
-                <div
-                  key={stat.metric}
-                  className="np-spotlight-card rounded-2xl p-5"
-                  onPointerMove={handleCardPointerMove}
-                >
+                <div key={stat.metric} className="p-5">
                   <div
                     className="font-mono text-xl sm:text-2xl font-bold tracking-tight mb-1.5"
                     style={{ color: stat.accent }}
                   >
                     {stat.metric}
                   </div>
-                  <div className="text-sm font-semibold text-[var(--np-ink)] leading-snug">{stat.label}</div>
-                  <div className="font-mono text-[11px] text-[var(--np-muted)] mt-1">{stat.sub}</div>
+                  <div className={`text-sm font-semibold leading-snug ${isLight ? "text-[#111114]" : "text-[#fafafa]"}`}>
+                    {stat.label}
+                  </div>
+                  <div className={`font-mono text-[11px] mt-1 ${isLight ? "text-[#63636e]" : "text-[#a1a1aa]"}`}>
+                    {stat.sub}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
+          </ChromeArcs>
         </section>
 
         {/* ── SECTION 1: MANIFIESTO TÉCNICO ── */}
-        <section id="manifiesto" className="py-20 sm:py-24 px-4 sm:px-6">
+        <section id="manifiesto" className="np-sec np-sec-manifiesto py-20 sm:py-24 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="max-w-5xl mx-auto">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -727,7 +623,7 @@ export default function NormalPortfolioLanding({
         </section>
 
         {/* ── SECTION 2: ACTIVIDADES & PARTICIPACIÓN ── */}
-        <section id="actividades" className="py-20 sm:py-24 px-4 sm:px-6">
+        <section id="actividades" className="np-sec np-sec-actividades py-20 sm:py-24 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
               <div className="max-w-2xl">
@@ -857,7 +753,7 @@ export default function NormalPortfolioLanding({
         </section>
 
         {/* ── SECTION 3: PROYECTOS ── */}
-        <section id="proyectos" className="py-20 sm:py-24 px-4 sm:px-6">
+        <section id="proyectos" className="np-sec np-sec-proyectos py-20 sm:py-24 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
               <div>
@@ -979,7 +875,7 @@ export default function NormalPortfolioLanding({
         </section>
 
         {/* ── SECTION 4: MATRIZ DE TECNOLOGÍAS (All 5 groups / 31 items) ── */}
-        <section id="stack" className="py-20 sm:py-24 px-4 sm:px-6">
+        <section id="stack" className="np-sec np-sec-stack py-20 sm:py-24 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
               <div className="max-w-3xl">
@@ -1020,13 +916,17 @@ export default function NormalPortfolioLanding({
                     <span className="font-mono text-xs text-[var(--np-muted)]">{group.items.length} items</span>
                   </div>
 
-                  <div className={group.fullWidth ? "grid grid-cols-1 md:grid-cols-2 gap-3" : "space-y-2.5"}>
+                  <div className={group.fullWidth ? "grid grid-cols-1 md:grid-cols-2 gap-2.5" : "divide-y divide-[var(--np-border)]"}>
                     {group.items.map((tech) => (
                       <div
                         key={tech.name}
-                        className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-purple-950/20 border border-[var(--np-border)] hover:border-[var(--np-border-strong)] transition-colors"
+                        className={`flex items-start gap-3.5 transition-colors ${
+                          group.fullWidth
+                            ? "p-3.5 rounded-xl bg-[var(--np-item-bg)] border border-[var(--np-border)] hover:border-[var(--np-border-strong)]"
+                            : "py-3 first:pt-0 last:pb-0"
+                        }`}
                       >
-                        <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-[var(--np-border)] flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-9 h-9 rounded-lg bg-[var(--np-item-bg)] border border-[var(--np-border)] flex items-center justify-center shrink-0 mt-0.5">
                           {renderNormalTechIcon(tech.name, 19, tech.techKey)}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -1043,7 +943,7 @@ export default function NormalPortfolioLanding({
         </section>
 
         {/* ── SECTION 5: TRAYECTORIA ── */}
-        <section id="trayectoria" className="py-20 sm:py-24 px-4 sm:px-6">
+        <section id="trayectoria" className="np-sec np-sec-trayectoria py-20 sm:py-24 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10">
               <div>
@@ -1104,7 +1004,7 @@ export default function NormalPortfolioLanding({
         </section>
 
         {/* ── SECTION 6: CONTACTO ── */}
-        <section id="contacto" className="py-20 sm:py-24 px-4 sm:px-6">
+        <section id="contacto" className="np-sec np-sec-contacto py-20 sm:py-24 px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-10">
               <div className="np-section-eyebrow mb-4">
@@ -1121,7 +1021,7 @@ export default function NormalPortfolioLanding({
             <div className="np-card rounded-3xl overflow-hidden">
               <div className="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 border-b border-[var(--np-border)] bg-purple-950/25">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-400/35 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-400/35 flex items-center justify-center shrink-0">
                     <Server size={17} className="text-[var(--np-accent-bright)]" />
                   </div>
                   <div>
@@ -1131,9 +1031,29 @@ export default function NormalPortfolioLanding({
                     <span className="font-mono text-[11px] text-[var(--np-muted)]">Santiago, Chile · UTC-3</span>
                   </div>
                 </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 font-mono text-[11px] text-[var(--np-emerald)]">
-                  <span className="w-2 h-2 rounded-full bg-[var(--np-emerald)] shadow-[0_0_8px_#34d399]" />
-                  <span>ONLINE · 12MS</span>
+                <div className="flex items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect()
+                      onActivateMinecraft({
+                        x: rect.left + rect.width / 2,
+                        y: rect.top + rect.height / 2,
+                      })
+                    }}
+                    title="Activar Bloque de Comandos · Ir al mundo Minecraft"
+                    aria-label="Activar Bloque de Comandos hacia el mundo Minecraft"
+                    className="np-portal-leds p-1.5 rounded-lg bg-black/40 border border-purple-400/35 hover:border-amber-300/80 hover:scale-105 transition-all cursor-pointer"
+                  >
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                  </button>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 font-mono text-[11px] text-[var(--np-emerald)]">
+                    <span className="w-2 h-2 rounded-full bg-[var(--np-emerald)] shadow-[0_0_8px_#34d399]" />
+                    <span>ONLINE · 12MS</span>
+                  </div>
                 </div>
               </div>
 
@@ -1248,67 +1168,6 @@ export default function NormalPortfolioLanding({
                   </button>
                 </div>
               </div>
-            </div>
-
-            {/* ── MYSTERIOUS COMMAND BLOCK PORTAL (Very Bottom of Page) ── */}
-            <div className="mt-10 flex justify-center">
-              <button
-                type="button"
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect()
-                  onActivateMinecraft({
-                    x: rect.left + rect.width / 2,
-                    y: rect.top + rect.height / 2,
-                  })
-                }}
-                aria-label="Activar portal hacia el mundo Minecraft"
-                className="np-portal-trigger group w-full max-w-xl rounded-2xl px-6 py-5 flex items-center justify-between gap-4 text-left"
-              >
-                {PORTAL_SPARKS.map((spark, idx) => (
-                  <span
-                    key={idx}
-                    aria-hidden="true"
-                    className="np-portal-spark"
-                    style={{
-                      top: spark.top,
-                      left: spark.left,
-                      width: `${spark.size}px`,
-                      height: `${spark.size}px`,
-                      animationDelay: spark.delay,
-                    }}
-                  />
-                ))}
-
-                <div className="relative z-10 flex items-center gap-4 min-w-0">
-                  <div className="w-12 h-12 rounded-xl bg-black/45 border border-purple-400/35 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                    <PixelCommandBlockIcon size={34} />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3be8e8] block mb-1">
-                      {"// anomalía detectada · /world minecraft"}
-                    </span>
-                    <span className="text-sm sm:text-base font-semibold text-white block leading-snug">
-                      Activar Bloque de Comandos
-                    </span>
-                    <span className="font-mono text-[11px] text-purple-200/75 block truncate mt-0.5">
-                      Explorar la dimensión interactiva &amp; LuvalOS
-                    </span>
-                  </div>
-                </div>
-
-                <div className="relative z-10 flex items-center gap-3 shrink-0">
-                  <span className="np-portal-leds" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                  </span>
-                  <ArrowUpRight
-                    size={18}
-                    className="text-purple-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                  />
-                </div>
-              </button>
             </div>
           </div>
         </section>

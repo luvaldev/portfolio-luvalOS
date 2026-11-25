@@ -1,5 +1,5 @@
-import PortfolioLanding from "@/components/PortfolioLanding"
+import DualPortfolioExperience from "@/components/DualPortfolioExperience"
 
 export default function Home() {
-  return <PortfolioLanding />
+  return <DualPortfolioExperience />
 }

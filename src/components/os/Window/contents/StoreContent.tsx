@@ -161,16 +161,16 @@ export function StoreContent() {
             <div className="space-y-3 mb-4">
               <label className="text-[11px] font-bold uppercase tracking-wider text-[var(--color-text-muted)] block">Tipo de Proyecto</label>
               <div className="grid grid-cols-2 gap-2">
-                {[
+                {([
                   { id: "web", label: "Software & Web" },
                   { id: "security", label: "Ciberseguridad" },
                   { id: "iot", label: "IoT / Hardware" },
                   { id: "mentoring", label: "Mentoría 1:1" }
-                ].map(opt => (
+                ] as const).map(opt => (
                   <button
                     key={opt.id}
                     onClick={() => {
-                      setCalcService(opt.id as any)
+                      setCalcService(opt.id)
                       // Reset addons
                       setDbAddon(false)
                       setAuthAddon(false)

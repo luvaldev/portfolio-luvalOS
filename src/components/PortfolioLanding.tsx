@@ -1120,19 +1120,6 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
               </button>
             )}
 
-            {onReturnNormal && (
-              <button
-                type="button"
-                onClick={onReturnNormal}
-                title="Volver al portafolio minimalista"
-                aria-label="Volver al portafolio minimalista"
-                className="mc-icon-slot hidden sm:inline-flex items-center gap-1.5 px-2.5 h-10 text-[#f5e7ff] cursor-pointer"
-              >
-                <PixelEnderChestIcon size={20} />
-                <span className="mc-pixel-font text-[10px] font-bold hidden lg:inline">Vista Minimalista</span>
-              </button>
-            )}
-
             <a
               href="/CV_Valdenegro-Luis.pdf"
               target="_blank"
@@ -1153,20 +1140,6 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
                 </a>
               ))}
               <a href="/CV_Valdenegro-Luis.pdf" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}><span>↗</span><strong>CV (PDF)</strong></a>
-              {onReturnNormal && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    onReturnNormal()
-                  }}
-                  title="Volver al portafolio minimalista"
-                  className="col-span-full flex items-center gap-[0.55rem] min-h-[2.65rem] min-w-0 p-[0.55rem] border-2 border-[#4c2575] bg-[#24113d] hover:border-[#f2c677] hover:bg-[#4b1d70] text-[#f5e7ff] mc-pixel-font text-[0.66rem] font-bold uppercase text-left cursor-pointer"
-                >
-                  <PixelEnderChestIcon size={20} />
-                  <strong>Vista Minimalista</strong>
-                </button>
-              )}
             </nav>
           )}
         </div>
@@ -2155,6 +2128,18 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
               <PixelScrollIcon size={20} />
               <span className="mc-pixel-font text-[10px]">CV</span>
             </a>
+            {onReturnNormal && (
+              <button
+                type="button"
+                onClick={onReturnNormal}
+                title="Volver al portafolio minimalista"
+                aria-label="Volver al portafolio minimalista"
+                className="mc-footer-link inline-flex items-center gap-2 cursor-pointer"
+              >
+                <PixelEnderChestIcon size={20} />
+                <span className="mc-pixel-font text-[10px]">VISTA MINIMALISTA</span>
+              </button>
+            )}
           </div>
         </div>
       </footer>

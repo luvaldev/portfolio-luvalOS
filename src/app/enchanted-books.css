@@ -1442,6 +1442,76 @@
   100% { transform: rotateX(-22deg) rotateY(360deg); }
 }
 
+/* Minecraft Jukebox Floating Music Player */
+.mc-jukebox-panel {
+  background: #2b180f;
+  border: 3px solid #120804;
+  box-shadow:
+    inset 2px 2px 0 #78482c,
+    inset -2px -2px 0 #1f1009,
+    6px 6px 0 rgba(7, 4, 10, 0.72);
+  overflow: hidden;
+}
+.mc-jukebox-top {
+  padding: 10px 12px 9px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.14) 0 4px, transparent 4px 8px),
+    linear-gradient(180deg, #6e4127 0%, #522e1a 100%);
+  border-bottom: 2px solid #241209;
+}
+.mc-jukebox-slot {
+  width: 66%;
+  height: 7px;
+  margin: 0 auto;
+  background: #0d0603;
+  border: 2px solid #2e170c;
+  box-shadow: inset 0 2px 0 #000;
+}
+.mc-jukebox-fab {
+  background: transparent;
+  border: none;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), filter 0.18s ease;
+}
+.mc-jukebox-fab:hover {
+  transform: translateY(-4px) scale(1.07);
+  filter: drop-shadow(0 10px 14px rgba(46, 232, 108, 0.32));
+}
+.mc-jukebox-fab:active {
+  transform: translateY(1px) scale(0.96);
+}
+.mc-disc-spin {
+  animation: mc-disc-rotate 2.6s linear infinite;
+}
+@keyframes mc-disc-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.mc-music-note {
+  position: absolute;
+  top: -4px;
+  font-size: 13px;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 3;
+  text-shadow: 1px 1px 0 #090403;
+  animation: mc-note-rise 1.9s ease-out infinite;
+}
+.mc-note-1 {
+  left: 12px;
+  color: #2ee86c;
+}
+.mc-note-2 {
+  right: 12px;
+  color: #3be8e8;
+  animation-delay: 0.9s;
+}
+@keyframes mc-note-rise {
+  0%   { transform: translateY(6px) scale(0.85); opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translateY(-18px) scale(1.1); opacity: 0; }
+}
+
 .mc-server-player-pill {
   display:inline-flex;
   align-items:center;
