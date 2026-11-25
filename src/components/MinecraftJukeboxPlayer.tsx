@@ -813,27 +813,12 @@ export default function MinecraftJukeboxPlayer() {
       )}
 
       {/* Compact Floating Jukebox Block Launcher (Clean Floating 3D Block, no bulky square box) */}
-      <div className="flex items-center gap-2.5">
-        {!open && !isPlaying && (
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label="Reproducir música de Minecraft (C418)"
-            className="mc-jukebox-prompt-tag mc-pixel-font"
-          >
-            <span
-              className="inline-block w-1.5 h-1.5 bg-[#2ee86c] shadow-[0_0_6px_#2ee86c] flex-shrink-0"
-              aria-hidden="true"
-            />
-            <span>{JUKEBOX_PROMPT_LABELS[promptIndex]}</span>
-          </button>
-        )}
-
+      <div className="flex items-end gap-2.5">
         {!open && isPlaying && (
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 bg-[#1b100c]/95 border-2 border-[#6e4026] shadow-[3px_3px_0_#090403] text-left cursor-pointer hover:border-[#2ee86c]"
+            className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 mb-2 bg-[#1b100c]/95 border-2 border-[#6e4026] shadow-[3px_3px_0_#090403] text-left cursor-pointer hover:border-[#2ee86c]"
           >
             <PixelMusicDisc color={currentTrack.discColor} ring={currentTrack.discRing} size={26} spinning />
             <div className="leading-tight">
@@ -845,21 +830,38 @@ export default function MinecraftJukeboxPlayer() {
           </button>
         )}
 
-        <button
-          type="button"
-          onClick={() => setOpen((prev) => !prev)}
-          title={open ? "Minimizar Jukebox de Minecraft" : "Abrir Jukebox de Minecraft (C418)"}
-          aria-label={open ? "Minimizar Jukebox de Minecraft" : "Abrir Jukebox de Minecraft"}
-          className="mc-jukebox-fab relative w-[92px] h-[92px] sm:w-[98px] sm:h-[98px] flex items-center justify-center cursor-pointer"
-        >
-          {isPlaying && (
-            <>
-              <span className="mc-music-note mc-note-1" aria-hidden="true">♪</span>
-              <span className="mc-music-note mc-note-2" aria-hidden="true">♫</span>
-            </>
+        <div className="flex flex-col items-center gap-1.5">
+          {!open && !isPlaying && (
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label="Reproducir música de Minecraft (C418)"
+              className="mc-jukebox-prompt-tag mc-pixel-font"
+            >
+              <span
+                className="inline-block w-1.5 h-1.5 bg-[#2ee86c] shadow-[0_0_6px_#2ee86c] flex-shrink-0"
+                aria-hidden="true"
+              />
+              <span>{JUKEBOX_PROMPT_LABELS[promptIndex]}</span>
+            </button>
           )}
-          <JukeboxBlockVisual size={92} />
-        </button>
+
+          <button
+            type="button"
+            onClick={() => setOpen((prev) => !prev)}
+            title={open ? "Minimizar Jukebox de Minecraft" : "Abrir Jukebox de Minecraft (C418)"}
+            aria-label={open ? "Minimizar Jukebox de Minecraft" : "Abrir Jukebox de Minecraft"}
+            className="mc-jukebox-fab relative w-[92px] h-[92px] sm:w-[98px] sm:h-[98px] flex items-center justify-center cursor-pointer"
+          >
+            {isPlaying && (
+              <>
+                <span className="mc-music-note mc-note-1" aria-hidden="true">♪</span>
+                <span className="mc-music-note mc-note-2" aria-hidden="true">♫</span>
+              </>
+            )}
+            <JukeboxBlockVisual size={92} />
+          </button>
+        </div>
       </div>
       </div>
     </>

@@ -2087,7 +2087,7 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
 
       {/* ── FOOTER (Bedrock Bar) ── */}
       <footer className="mc-bedrock-footer border-t-4 border-[#241033] py-10 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+        <div className="max-w-7xl mx-auto pr-0 sm:pr-36 lg:pr-44 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-3">
             <Image
               src="/luval-avatar.png"
@@ -2102,7 +2102,19 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
               © 2026 LUIS VALDENEGRO (LUVAL)
             </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3">
+            {onReturnNormal && (
+              <button
+                type="button"
+                onClick={onReturnNormal}
+                title="Volver al Overworld"
+                aria-label="Volver al Overworld"
+                className="mc-footer-link inline-flex items-center gap-2 cursor-pointer"
+              >
+                <PixelEnderChestIcon size={20} />
+                <span className="mc-pixel-font text-[10px]">VOLVER AL OVERWORLD</span>
+              </button>
+            )}
             <a
               href="https://github.com/luvaldev"
               target="_blank"
@@ -2139,18 +2151,6 @@ export default function PortfolioLanding({ onReturnNormal }: { onReturnNormal?: 
               <PixelScrollIcon size={20} />
               <span className="mc-pixel-font text-[10px]">CV</span>
             </a>
-            {onReturnNormal && (
-              <button
-                type="button"
-                onClick={onReturnNormal}
-                title="Volver al Overworld"
-                aria-label="Volver al Overworld"
-                className="mc-footer-link inline-flex items-center gap-2 cursor-pointer"
-              >
-                <PixelEnderChestIcon size={20} />
-                <span className="mc-pixel-font text-[10px]">VOLVER AL OVERWORLD</span>
-              </button>
-            )}
           </div>
         </div>
       </footer>
